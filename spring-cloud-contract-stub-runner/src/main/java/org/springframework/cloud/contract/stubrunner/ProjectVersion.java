@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Object representing a root project's version. Knows how to provide a minor bumped
@@ -312,12 +312,12 @@ class ProjectVersion implements Comparable<ProjectVersion>, Serializable {
 		}
 
 		private boolean noSuffix() {
-			return StringUtils.isEmpty(suffix);
+			return ObjectUtils.isEmpty(suffix);
 		}
 
 		private String gav() {
 			// Finchley
-			if (StringUtils.isEmpty(minor)) {
+			if (ObjectUtils.isEmpty(minor)) {
 				return String.format("%s", major);
 			}
 			// 1.0.1
@@ -338,13 +338,13 @@ class ProjectVersion implements Comparable<ProjectVersion>, Serializable {
 			// must have
 			// either major and suffix (release train)
 			// major, minor, patch and suffix
-			return isNumeric(major) && (StringUtils.isEmpty(minor) || StringUtils.isEmpty(patch)
-					|| StringUtils.isEmpty(suffix) || StringUtils.isEmpty(delimiter));
+			return isNumeric(major) && (ObjectUtils.isEmpty(minor) || ObjectUtils.isEmpty(patch)
+					|| ObjectUtils.isEmpty(suffix) || ObjectUtils.isEmpty(delimiter));
 		}
 
 		private boolean wrongReleaseTrainVersion() {
 			// BAD: 1.EXAMPLE, GOOD: Hoxton.RELEASE
-			return isNumeric(major) && StringUtils.isEmpty(suffix);
+			return isNumeric(major) && ObjectUtils.isEmpty(suffix);
 		}
 
 	}

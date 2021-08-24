@@ -44,6 +44,7 @@ import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -80,7 +81,7 @@ public final class ScmStubDownloaderBuilder implements StubDownloaderBuilder {
 
 	@Override
 	public Resource resolve(String location, ResourceLoader resourceLoader) {
-		if (StringUtils.isEmpty(location) || !isProtocolAccepted(location)) {
+		if (ObjectUtils.isEmpty(location) || !isProtocolAccepted(location)) {
 			return null;
 		}
 		return new GitResource(location);
@@ -263,7 +264,7 @@ class GitStubDownloaderProperties {
 
 	private String schemeSpecificPart(URI uri) {
 		String part = uri.getSchemeSpecificPart();
-		if (StringUtils.isEmpty(part)) {
+		if (ObjectUtils.isEmpty(part)) {
 			return part;
 		}
 		return part.startsWith("//") ? part.substring(2) : part;

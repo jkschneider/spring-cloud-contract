@@ -41,7 +41,7 @@ import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.restdocs.snippet.StandardWriterResolver;
 import org.springframework.restdocs.snippet.WriterResolver;
 import org.springframework.restdocs.templates.TemplateFormat;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.delete;
@@ -153,7 +153,7 @@ public class WireMockSnippet implements Snippet {
 
 	private MappingBuilder queryParams(MappingBuilder request, Operation operation) {
 		String rawQuery = operation.getRequest().getUri().getRawQuery();
-		if (StringUtils.isEmpty(rawQuery)) {
+		if (ObjectUtils.isEmpty(rawQuery)) {
 			return request;
 		}
 		for (String queryPair : rawQuery.split("&")) {
@@ -210,7 +210,7 @@ public class WireMockSnippet implements Snippet {
 				builder.withRequestBody(matchingJsonPath(jsonPath));
 			}
 		}
-		else if (!StringUtils.isEmpty(content)) {
+		else if (!ObjectUtils.isEmpty(content)) {
 			if (this.hasJsonBodyRequestToMatch) {
 				builder.withRequestBody(equalToJson(content));
 			}

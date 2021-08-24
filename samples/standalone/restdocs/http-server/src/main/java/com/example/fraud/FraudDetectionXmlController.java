@@ -18,7 +18,7 @@ package com.example.fraud;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +31,7 @@ public class FraudDetectionXmlController {
 	@RequestMapping(value = "/xmlfraud", method = POST, consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
 	@ResponseBody
 	public XmlResponseBody xmlResponseBody(@RequestBody XmlRequestBody xmlRequestBody) {
-		if (StringUtils.isEmpty(xmlRequestBody.name)) {
+		if (ObjectUtils.isEmpty(xmlRequestBody.name)) {
 			return new XmlResponseBody("EMPTY");
 		}
 		return new XmlResponseBody("FULL");

@@ -32,7 +32,7 @@ import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Allows to read stubs and contracts from a given location. Contrary to
@@ -71,7 +71,7 @@ public class FileStubDownloader implements StubDownloaderBuilder {
 
 	@Override
 	public Resource resolve(String location, ResourceLoader resourceLoader) {
-		if (StringUtils.isEmpty(location) || !isProtocolAccepted(location)) {
+		if (ObjectUtils.isEmpty(location) || !isProtocolAccepted(location)) {
 			return null;
 		}
 		// Can be resolving a resource for Classpath as fallback
@@ -227,7 +227,7 @@ class StubsStubDownloader implements StubDownloader {
 	private String schemeSpecificPart() {
 		try {
 			String part = this.stubRunnerOptions.getStubRepositoryRoot().getURI().getSchemeSpecificPart();
-			if (StringUtils.isEmpty(part)) {
+			if (ObjectUtils.isEmpty(part)) {
 				return part;
 			}
 			return part.startsWith("//") ? part.substring(2) : part;
