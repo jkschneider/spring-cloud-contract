@@ -36,8 +36,8 @@ final class VersionExtractor {
 		URL codeSourceLocation = cls.getProtectionDomain().getCodeSource().getLocation();
 		try {
 			URLConnection connection = codeSourceLocation.openConnection();
-			if (connection instanceof JarURLConnection) {
-				return getImplementationVersion(((JarURLConnection) connection).getJarFile());
+			if (connection instanceof JarURLConnection lConnection) {
+				return getImplementationVersion(lConnection.getJarFile());
 			}
 			try (JarFile jarFile = new JarFile(new File(codeSourceLocation.toURI()))) {
 				return getImplementationVersion(jarFile);

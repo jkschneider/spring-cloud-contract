@@ -46,8 +46,8 @@ public class Input extends Common implements RegexCreatingProperty<ClientDslProp
 	public DslProperty value(ClientDslProperty client) {
 		Object dynamicValue = client.getClientValue();
 		Object concreteValue = client.getServerValue();
-		if (dynamicValue instanceof RegexProperty) {
-			return ((RegexProperty) dynamicValue).dynamicClientConcreteProducer();
+		if (dynamicValue instanceof RegexProperty regexProperty) {
+			return regexProperty.dynamicClientConcreteProducer();
 		}
 		return new DslProperty(dynamicValue, concreteValue);
 	}

@@ -55,12 +55,12 @@ public class RegexProperty extends DslProperty implements CanBeDynamic {
 			throw new IllegalStateException("Neither client not server side is dynamic");
 		}
 		Object dynamicValue = clientDynamic ? client : server;
-		if (dynamicValue instanceof Pattern) {
-			this.pattern = (Pattern) dynamicValue;
+		if (dynamicValue instanceof Pattern pattern1) {
+			this.pattern = pattern1;
 			this.clazz = clazz != null ? clazz : String.class;
 		}
-		else if (dynamicValue instanceof RegexProperty) {
-			RegexProperty regexProperty = ((RegexProperty) dynamicValue);
+		else if (dynamicValue instanceof RegexProperty property) {
+			RegexProperty regexProperty =property;
 			this.pattern = regexProperty.pattern;
 			this.clazz = clazz != null ? clazz : regexProperty.clazz;
 		}

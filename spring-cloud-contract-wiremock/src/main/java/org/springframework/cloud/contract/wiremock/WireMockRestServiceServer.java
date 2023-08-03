@@ -234,12 +234,12 @@ public final class WireMockRestServiceServer {
 			return;
 		}
 		for (final ContentPattern<?> pattern : request.getBodyPatterns()) {
-			if (pattern instanceof MatchesJsonPathPattern) {
+			if (pattern instanceof MatchesJsonPathPattern pathPattern) {
 				expect.andExpect(MockRestRequestMatchers
-						.jsonPath(((MatchesJsonPathPattern) pattern).getMatchesJsonPath()).exists());
+						.jsonPath(pathPattern.getMatchesJsonPath()).exists());
 			}
-			else if (pattern instanceof MatchesXPathPattern) {
-				expect.andExpect(xpath((MatchesXPathPattern) pattern));
+			else if (pattern instanceof MatchesXPathPattern pathPattern) {
+				expect.andExpect(xpath(pathPattern));
 			}
 			expect.andExpect(matchContents(pattern));
 		}

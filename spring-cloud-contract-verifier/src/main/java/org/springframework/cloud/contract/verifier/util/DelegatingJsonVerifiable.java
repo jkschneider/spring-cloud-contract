@@ -93,7 +93,7 @@ class DelegatingJsonVerifiable implements MethodBufferingJsonVerifiable {
 
 	@Override
 	public MethodBufferingJsonVerifiable field(Object value) {
-		Object valueToPut = value instanceof ShouldTraverse ? ((ShouldTraverse) value).value : value;
+		Object valueToPut = value instanceof ShouldTraverse st ? st.value : value;
 		Object wrappedValue = wrapInBrackets(valueToPut);
 		DelegatingJsonVerifiable verifiable = new DelegatingJsonVerifiable(this.delegate.field(wrappedValue),
 				this.methodsBuffer, value);

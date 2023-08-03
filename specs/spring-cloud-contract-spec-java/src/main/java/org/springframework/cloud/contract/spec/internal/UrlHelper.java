@@ -38,11 +38,14 @@ final class UrlHelper {
 
 	private static final String REGEX_USERINFO = "(?:\\S+(?::\\S*)?@)?";
 
-	private static final String REGEX_HOST = "(?:"
-			+ "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" + "|"
-			+ "(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)"
-			+ "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*"
-			+ "(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))|(?:localhost))";
+	private static final String REGEX_HOST = """
+            (?:\
+            (?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\
+            |\
+            (?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)\
+            (?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*\
+            (?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))|(?:localhost))\
+            """;
 
 	private static final String REGEX_PORT = "(?::\\d{2,5})?";
 

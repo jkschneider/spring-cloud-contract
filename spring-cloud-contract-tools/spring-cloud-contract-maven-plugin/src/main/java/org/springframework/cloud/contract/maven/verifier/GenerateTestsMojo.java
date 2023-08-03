@@ -299,7 +299,7 @@ public class GenerateTestsMojo extends AbstractMojo {
 		}
 		catch (ContractVerifierException e) {
 			throw new MojoExecutionException(
-					String.format("Spring Cloud Contract Verifier Plugin exception: %s", e.getMessage()), e);
+                    "Spring Cloud Contract Verifier Plugin exception: %s".formatted(e.getMessage()), e);
 		}
 	}
 

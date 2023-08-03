@@ -84,8 +84,10 @@ class StubServer {
 			return httpsPort != -1 ? httpsPort : httpPort;
 		}
 		if (log.isDebugEnabled()) {
-			log.debug("The HTTP Server stub is not running... That means that the "
-					+ "artifact is running a messaging module. Returning back -1 value of the port.");
+			log.debug("""
+                    The HTTP Server stub is not running... That means that the \
+                    artifact is running a messaging module. Returning back -1 value of the port.\
+                    """);
 		}
 		return -1;
 	}

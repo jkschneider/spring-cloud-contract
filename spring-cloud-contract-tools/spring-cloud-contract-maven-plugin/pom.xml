@@ -315,6 +315,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.maven.resolver</groupId>
 			<artifactId>maven-resolver-connector-basic</artifactId>
 			<scope>provided</scope>
@@ -338,6 +343,11 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.inject</groupId>
+			<artifactId>jakarta.inject-api</artifactId>
+			<version>1.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

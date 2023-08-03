@@ -67,8 +67,10 @@ class StubRunnerFactory {
 			log.debug("Will download stubs for dependencies " + this.stubRunnerOptions.getDependencies());
 		}
 		if (this.stubRunnerOptions.getDependencies().isEmpty()) {
-			log.warn("No stubs to download have been passed. Most likely you have forgotten to pass "
-					+ "them either via annotation or a property");
+			log.warn("""
+                    No stubs to download have been passed. Most likely you have forgotten to pass \
+                    them either via annotation or a property\
+                    """);
 		}
 		Collection<StubRunner> result = new ArrayList<>();
 		for (StubConfiguration stubsConfiguration : this.stubRunnerOptions.getDependencies()) {

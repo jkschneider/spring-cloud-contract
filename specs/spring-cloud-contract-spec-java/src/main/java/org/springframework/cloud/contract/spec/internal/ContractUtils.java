@@ -20,8 +20,8 @@ import java.util.function.Function;
 
 final class ContractUtils {
 
-	static final Function CLIENT_VALUE = o -> o instanceof DslProperty ? ((DslProperty) o).getClientValue() : o;
-	static final Function SERVER_VALUE = o -> o instanceof DslProperty ? ((DslProperty) o).getServerValue() : o;
+	static final Function CLIENT_VALUE = o -> o instanceof DslProperty dp ? dp.getClientValue() : o;
+	static final Function SERVER_VALUE = o -> o instanceof DslProperty dp ? dp.getServerValue() : o;
 
 	private ContractUtils() {
 		throw new IllegalStateException("Can't instantiate an utility class");

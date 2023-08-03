@@ -68,8 +68,8 @@ public class NamedProperty {
 			return null;
 		}
 
-		if (o instanceof DslProperty) {
-			return ((DslProperty) (o));
+		if (o instanceof DslProperty property) {
+			returnproperty;
 		}
 
 		return new DslProperty(o);

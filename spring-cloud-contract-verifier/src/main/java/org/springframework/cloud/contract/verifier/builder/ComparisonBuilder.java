@@ -29,22 +29,22 @@ interface ComparisonBuilder {
 	ComparisonBuilder JAVA_MESSAGING_INSTANCE = () -> JavaMessagingBodyParser.INSTANCE;
 
 	default String createComparison(Object headerValue) {
-		if (headerValue instanceof Pattern) {
-			return matches((Pattern) headerValue);
+		if (headerValue instanceof Pattern pattern) {
+			return matches(pattern);
 		}
-		else if (headerValue instanceof Number) {
-			return isEqualTo((Number) headerValue);
+		else if (headerValue instanceof Number number) {
+			return isEqualTo(number);
 		}
 		String escapedHeader = convertUnicodeEscapesIfRequired(headerValue.toString());
 		return isEqualTo(escapedHeader);
 	}
 
 	default String createUnescapedComparison(Object headerValue) {
-		if (headerValue instanceof Pattern) {
-			return createComparison((Pattern) headerValue);
+		if (headerValue instanceof Pattern pattern) {
+			return createComparison(pattern);
 		}
-		else if (headerValue instanceof Number) {
-			return isEqualTo((Number) headerValue);
+		else if (headerValue instanceof Number number) {
+			return isEqualTo(number);
 		}
 		return isEqualTo(headerValue.toString());
 	}

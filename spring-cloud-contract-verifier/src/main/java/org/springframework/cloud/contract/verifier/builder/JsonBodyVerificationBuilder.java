@@ -126,13 +126,13 @@ class JsonBodyVerificationBuilder implements BodyMethodGeneration, ClassVerifier
 	}
 
 	private boolean mapOrListBodyReducedToEmpty(Object originalBody, Object convertedBody) {
-		int origSize = originalBody instanceof Map ? ((Map) originalBody).size() : -1;
-		int convertedSize = convertedBody instanceof Map ? ((Map) convertedBody).size() : -1;
+		int origSize = originalBody instanceof Map m ? m.size() : -1;
+		int convertedSize = convertedBody instanceof Map m ? m.size() : -1;
 		if (origSize > 0 && convertedSize == 0) {
 			return true;
 		}
-		origSize = originalBody instanceof List ? ((List) originalBody).size() : -1;
-		convertedSize = convertedBody instanceof List ? ((List) convertedBody).size() : -1;
+		origSize = originalBody instanceof List l ? l.size() : -1;
+		convertedSize = convertedBody instanceof List l ? l.size() : -1;
 		return (origSize > 0 && convertedSize == 0);
 	}
 
@@ -172,8 +172,8 @@ class JsonBodyVerificationBuilder implements BodyMethodGeneration, ClassVerifier
 	public void methodForEqualityCheck(BodyMatcher bodyMatcher, BlockBuilder bb, Object copiedBody) {
 		String path = quotedAndEscaped(bodyMatcher.path());
 		Object retrievedValue = value(copiedBody, bodyMatcher);
-		retrievedValue = retrievedValue instanceof RegexProperty
-				? ((RegexProperty) retrievedValue).getPattern().pattern() : retrievedValue;
+		retrievedValue = retrievedValue instanceof RegexProperty rp
+				? rp.getPattern().pattern() : retrievedValue;
 		String valueAsParam = retrievedValue instanceof String ? quotedAndEscaped(retrievedValue.toString())
 				: objectToString(retrievedValue);
 		if (arrayRelated(path) && MatchingType.regexRelated(bodyMatcher.matchingType())) {

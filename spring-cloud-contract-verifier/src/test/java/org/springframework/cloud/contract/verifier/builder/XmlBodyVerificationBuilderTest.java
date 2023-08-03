@@ -10,8 +10,11 @@ import static com.toomuchcoding.jsonassert.JsonAssertion.assertThat;
 
 public class XmlBodyVerificationBuilderTest {
 
-	private static final String xml = "<customer>\r\n" + "      <email>customer@test.com</email>\r\n"
-			+ "    </customer>";
+	private static final String xml = """
+            <customer>
+                  <email>customer@test.com</email>
+                </customer>\
+            """;
 
 	@Test
 	public void shouldAddXmlProcessingLines() {

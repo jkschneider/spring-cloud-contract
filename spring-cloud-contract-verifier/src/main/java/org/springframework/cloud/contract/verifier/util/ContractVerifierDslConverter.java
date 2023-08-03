@@ -285,7 +285,7 @@ public class ContractVerifierDslConverter implements ContractConverter<Collectio
 	}
 
 	private static boolean isACollectionOfContracts(Object object) {
-		return object instanceof Collection && ((Collection) object).stream().allMatch(it -> it instanceof Contract);
+		return object instanceof Collection c && c.stream().allMatch(it -> it instanceof Contract);
 	}
 
 	private static Collection<Contract> withName(File file, Collection<Contract> contracts) {

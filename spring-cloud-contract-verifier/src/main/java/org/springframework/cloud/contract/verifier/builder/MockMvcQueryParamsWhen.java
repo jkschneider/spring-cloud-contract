@@ -76,11 +76,11 @@ class MockMvcQueryParamsWhen implements When, MockMvcAcceptor, QueryParamsResolv
 	}
 
 	private boolean allowedQueryParameter(Object o) {
-		if (o instanceof QueryParameter) {
-			return allowedQueryParameter(((QueryParameter) o).getServerValue());
+		if (o instanceof QueryParameter parameter) {
+			return allowedQueryParameter(parameter.getServerValue());
 		}
-		else if (o instanceof MatchingStrategy) {
-			return !MatchingStrategy.Type.ABSENT.equals(((MatchingStrategy) o).getType());
+		else if (o instanceof MatchingStrategy strategy) {
+			return !MatchingStrategy.Type.ABSENT.equals(strategy.getType());
 		}
 		return true;
 	}
@@ -93,8 +93,8 @@ class MockMvcQueryParamsWhen implements When, MockMvcAcceptor, QueryParamsResolv
 
 	private String getQueryParamValue(QueryParameter queryParam) {
 		Object serverValue = queryParam.getServerValue();
-		if (serverValue instanceof ExecutionProperty) {
-			return ((ExecutionProperty) serverValue).getExecutionCommand();
+		if (serverValue instanceof ExecutionProperty property) {
+			return property.getExecutionCommand();
 		}
 		return this.bodyParser.quotedLongText(resolveParamValue(MapConverter.getTestSideValuesForNonBody(queryParam)));
 	}

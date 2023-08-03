@@ -37,12 +37,24 @@ class contract_xml implements Supplier<Contract> {
 				r.headers(h -> {
 					h.contentType(h.applicationXml());
 				});
-				r.body("<test>\n" + "<duck type='xtype'>123</duck>\n" + "<alpha>abc</alpha>\n" + "<list>\n"
-						+ "<elem>abc</elem>\n" + "<elem>def</elem>\n" + "<elem>ghi</elem>\n" + "</list>\n"
-						+ "<number>123</number>\n" + "<aBoolean>true</aBoolean>\n" + "<date>2017-01-01</date>\n"
-						+ "<dateTime>2017-01-01T01:23:45</dateTime>\n" + "<time>01:02:34</time>\n"
-						+ "<valueWithoutAMatcher>foo</valueWithoutAMatcher>\n" + "<key><complex>foo</complex></key>\n"
-						+ "</test>");
+				r.body("""
+                        <test>
+                        <duck type='xtype'>123</duck>
+                        <alpha>abc</alpha>
+                        <list>
+                        <elem>abc</elem>
+                        <elem>def</elem>
+                        <elem>ghi</elem>
+                        </list>
+                        <number>123</number>
+                        <aBoolean>true</aBoolean>
+                        <date>2017-01-01</date>
+                        <dateTime>2017-01-01T01:23:45</dateTime>
+                        <time>01:02:34</time>
+                        <valueWithoutAMatcher>foo</valueWithoutAMatcher>
+                        <key><complex>foo</complex></key>
+                        </test>\
+                        """);
 				r.bodyMatchers(m -> {
 					m.xPath("/test/duck/text()", m.byRegex("[0-9]{3}"));
 					m.xPath("/test/duck/text()", m.byCommand("equals($it)"));

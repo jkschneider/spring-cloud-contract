@@ -345,8 +345,10 @@ class GitRepo {
 					log.info("Successfully connected to an agent");
 				}
 				catch (AgentProxyException e) {
-					log.error("Exception occurred while trying to connect to agent. Will create"
-							+ "the default JSch connection", e);
+					log.error("""
+                            Exception occurred while trying to connect to agent. Will create\
+                            the default JSch connection\
+                            """, e);
 					return super.createDefaultJSch(fs);
 				}
 				final JSch jsch = super.createDefaultJSch(fs);
@@ -360,8 +362,7 @@ class GitRepo {
 		};
 
 		private final TransportConfigCallback callback = transport -> {
-			if (transport instanceof SshTransport) {
-				SshTransport sshTransport = (SshTransport) transport;
+			if (transport instanceof SshTransport sshTransport) {
 				sshTransport.setSshSessionFactory(this.factory);
 			}
 		};

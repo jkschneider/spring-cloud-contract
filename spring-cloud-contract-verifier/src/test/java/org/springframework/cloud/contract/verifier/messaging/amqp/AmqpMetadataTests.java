@@ -29,19 +29,21 @@ class AmqpMetadataTests {
 	@Test
 	void should_parse_the_metadata_entry() throws JsonProcessingException {
 		// @formatter:off
-		String yamlEntry = "amqp:\n"
-				+ "  input:\n"
-				+ "      connectToBroker:\n"
-				+ "        additionalOptions: \"foo1\"\n"
-				+ "        declareQueueWithName: \"foo2\"\n"
-				+ "      messageProperties:\n"
-				+ "        replyTo: \"foo3\"\n"
-				+ "  outputMessage:\n"
-				+ "      connectToBroker:\n"
-				+ "        additionalOptions: \"bar1\"\n"
-				+ "        declareQueueWithName: \"bar2\"\n"
-				+ "      messageProperties:\n"
-				+ "        replyTo: \"bar3\"\n";
+		String yamlEntry = """
+                amqp:
+                  input:
+                      connectToBroker:
+                        additionalOptions: "foo1"
+                        declareQueueWithName: "foo2"
+                      messageProperties:
+                        replyTo: "foo3"
+                  outputMessage:
+                      connectToBroker:
+                        additionalOptions: "bar1"
+                        declareQueueWithName: "bar2"
+                      messageProperties:
+                        replyTo: "bar3"
+                """;
 		// @formatter:on
 
 		AmqpMetadata metadata = AmqpMetadata

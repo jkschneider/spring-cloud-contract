@@ -280,8 +280,8 @@ public class Request extends Common implements RegexCreatingProperty<ClientDslPr
 	public DslProperty value(ClientDslProperty client) {
 		Object concreteValue = client.getServerValue();
 		Object dynamicValue = client.getClientValue();
-		if (dynamicValue instanceof RegexProperty && client.isSingleValue()) {
-			return ((RegexProperty) dynamicValue).dynamicClientEscapedConcreteProducer();
+		if (dynamicValue instanceof RegexProperty regexProperty && client.isSingleValue()) {
+			return regexProperty.dynamicClientEscapedConcreteProducer();
 		}
 		else if (concreteValue instanceof RegexProperty && !client.isSingleValue()) {
 			concreteValue = dynamicValue;

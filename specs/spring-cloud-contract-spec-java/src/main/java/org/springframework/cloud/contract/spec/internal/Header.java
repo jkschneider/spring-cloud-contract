@@ -43,8 +43,8 @@ public class Header extends DslProperty {
 	}
 
 	public static Header build(String key, Object value) {
-		if (value instanceof MatchingStrategy) {
-			return new Header(key, (MatchingStrategy) value);
+		if (value instanceof MatchingStrategy strategy) {
+			return new Header(key, strategy);
 		}
 		return new Header(key, value);
 	}

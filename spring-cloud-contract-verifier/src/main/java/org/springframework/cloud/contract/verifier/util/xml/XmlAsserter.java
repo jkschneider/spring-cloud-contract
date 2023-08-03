@@ -123,9 +123,9 @@ class XmlAsserter implements XmlVerifiable {
 	public FieldAssertion nodeWithDefaultNamespace(final String value, String defaultNamespace) {
 		FieldAssertion asserter = new FieldAssertion(this.cachedObjects, this.xPathBuffer, this.specialCaseXPathBuffer,
 				value, this.xmlAsserterConfiguration);
-		String path = String.format("*[local-name()='%s'", value);
+		String path = "*[local-name()='%s'".formatted(value);
 		if (StringUtils.hasText(defaultNamespace)) {
-			path += String.format(" and namespace-uri()='%s'", defaultNamespace);
+			path += " and namespace-uri()='%s'".formatted(defaultNamespace);
 		}
 		path += "]";
 		asserter.xPathBuffer.offer(path);
@@ -225,14 +225,14 @@ class XmlAsserter implements XmlVerifiable {
 		if (value == null) {
 			return isNull();
 		}
-		if (value instanceof Number) {
-			return isEqualTo((Number) value);
+		if (value instanceof Number number) {
+			return isEqualTo(number);
 		}
-		else if (value instanceof Boolean) {
-			return isEqualTo((Boolean) value);
+		else if (value instanceof Boolean boolean1) {
+			return isEqualTo(boolean1);
 		}
-		else if (value instanceof Pattern) {
-			return matches(((Pattern) value).pattern());
+		else if (value instanceof Pattern pattern) {
+			return matches(pattern.pattern());
 		}
 		return isEqualTo(value.toString());
 	}
@@ -418,8 +418,8 @@ class XmlAsserter implements XmlVerifiable {
 		if (expr.empty()) {
 			throw new XmlAsserterXpathException(xPath(), this.cachedObjects.xmlAsString);
 		}
-		if (expr instanceof ElementType) {
-			return ((ElementType) expr).getStringValue();
+		if (expr instanceof ElementType type) {
+			return type.getStringValue();
 		}
 		throw new UnsupportedOperationException("Can't return values of complex types");
 	}

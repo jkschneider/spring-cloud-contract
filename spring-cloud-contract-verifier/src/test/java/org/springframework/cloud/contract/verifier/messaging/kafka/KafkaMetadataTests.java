@@ -28,13 +28,15 @@ class KafkaMetadataTests {
 	@Test
 	void should_parse_the_metadata_entry() throws JsonProcessingException {
 		// @formatter:off
-		String yamlEntry = "kafka:\n"
-				+ "  input:\n"
-				+ "      connectToBroker:\n"
-				+ "        additionalOptions: foo\n"
-				+ "  outputMessage:\n"
-				+ "      connectToBroker:\n"
-				+ "        additionalOptions: bar";
+		String yamlEntry = """
+                kafka:
+                  input:
+                      connectToBroker:
+                        additionalOptions: foo
+                  outputMessage:
+                      connectToBroker:
+                        additionalOptions: bar\
+                """;
 		// @formatter:on
 
 		KafkaMetadata metadata = KafkaMetadata

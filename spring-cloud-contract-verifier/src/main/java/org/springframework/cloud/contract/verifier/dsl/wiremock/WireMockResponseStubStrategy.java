@@ -101,20 +101,20 @@ class WireMockResponseStubStrategy extends BaseWireMockStubStrategy {
 	private void appendBody(ResponseDefinitionBuilder builder) {
 		if (response.getBody() != null) {
 			Object body = MapConverter.getStubSideValues(response.getBody(), parsingClosureForContentType());
-			if (body instanceof byte[]) {
-				builder.withBody((byte[]) body);
+			if (body instanceof byte[] bytes) {
+				builder.withBody(bytes);
 			}
-			else if (body instanceof FromFileProperty && ((FromFileProperty) body).isByte()) {
-				builder.withBody(((FromFileProperty) body).asBytes());
+			else if (body instanceof FromFileProperty property && property.isByte()) {
+				builder.withBody(property.asBytes());
 			}
-			else if (body instanceof Map) {
-				builder.withBody(parseBody((Map<?, ?>) body, contentType));
+			else if (body instanceof Map map) {
+				builder.withBody(parseBody(map, contentType));
 			}
-			else if (body instanceof List) {
-				builder.withBody(parseBody((List<?>) body, contentType));
+			else if (body instanceof List list) {
+				builder.withBody(parseBody(list, contentType));
 			}
-			else if (body instanceof GString) {
-				builder.withBody(parseBody((GString) body, contentType));
+			else if (body instanceof GString string) {
+				builder.withBody(parseBody(string, contentType));
 			}
 			else {
 				builder.withBody(parseBody(body, contentType));

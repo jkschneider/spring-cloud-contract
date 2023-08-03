@@ -83,8 +83,8 @@ public class OutputMessage extends Common implements RegexCreatingProperty<Serve
 		Object dynamicValue = serverDslProperty.getServerValue();
 		// for the output messages ran via stub runner,
 		// entries have to have fixed values
-		if (dynamicValue instanceof RegexProperty) {
-			return ((RegexProperty) dynamicValue).concreteClientEscapedDynamicProducer();
+		if (dynamicValue instanceof RegexProperty regexProperty) {
+			return regexProperty.concreteClientEscapedDynamicProducer();
 		}
 
 		return new DslProperty(concreteValue, dynamicValue);

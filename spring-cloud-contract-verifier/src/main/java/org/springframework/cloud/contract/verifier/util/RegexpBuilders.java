@@ -52,14 +52,14 @@ public final class RegexpBuilders {
 	 * representations.
 	 */
 	public static String buildGStringRegexpForStubSide(Object o) {
-		if (o instanceof DslProperty) {
-			return buildGStringRegexpForStubSide((DslProperty<?>) o);
+		if (o instanceof DslProperty property) {
+			return buildGStringRegexpForStubSide(property);
 		}
-		else if (o instanceof Pattern) {
-			return buildGStringRegexpForStubSide((Pattern) o);
+		else if (o instanceof Pattern pattern) {
+			return buildGStringRegexpForStubSide(pattern);
 		}
-		else if (o instanceof GString) {
-			return buildGStringRegexpForStubSide((GString) o);
+		else if (o instanceof GString string) {
+			return buildGStringRegexpForStubSide(string);
 		}
 		return escapeSpecialRegexChars(o.toString());
 	}

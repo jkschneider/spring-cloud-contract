@@ -51,8 +51,8 @@ public class ContractVerifierMessage {
 	}
 
 	public byte[] getPayloadAsByteArray() {
-		if (this.payload instanceof byte[]) {
-			return (byte[]) this.payload;
+		if (this.payload instanceof byte[] bytes) {
+			return bytes;
 		}
 		throw new IllegalStateException("Payload [" + this.payload.getClass() + "]" + "is not instance of byte[]");
 	}

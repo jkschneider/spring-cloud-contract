@@ -69,12 +69,12 @@ interface BodyParser extends BodyThen {
 		ContentType contentType = metadata.getOutputTestContentType();
 		DslProperty body = responseBody(metadata);
 		Object responseBody = extractServerValueFromBody(contentType, body.getServerValue());
-		if (responseBody instanceof FromFileProperty) {
-			responseBody = ((FromFileProperty) responseBody).asString();
+		if (responseBody instanceof FromFileProperty property) {
+			responseBody = property.asString();
 		}
-		else if (responseBody instanceof GString) {
-			responseBody = extractValue((GString) responseBody, contentType,
-					o -> o instanceof DslProperty ? ((DslProperty) o).getServerValue() : o);
+		else if (responseBody instanceof GString string) {
+			responseBody = extractValue(string, contentType,
+					o -> o instanceof DslProperty dp ? dp.getServerValue() : o);
 		}
 		else if (responseBody instanceof DslProperty) {
 			responseBody = MapConverter.getTestSideValues(responseBody);
@@ -90,17 +90,17 @@ interface BodyParser extends BodyThen {
 		DslProperty body = requestBody(metadata);
 		Object bodyValue = extractServerValueFromBody(contentType, body.getServerValue());
 		if (contentType == ContentType.FORM) {
-			if (bodyValue instanceof Map) {
+			if (bodyValue instanceof Map map) {
 				// [a:3, b:4] == "a=3&b=4"
-				return ((Map) bodyValue).entrySet().stream().map(o -> {
+				return map.entrySet().stream().map(o -> {
 					Map.Entry entry = (Map.Entry) o;
 					return convertUnicodeEscapesIfRequired(
 							entry.getKey().toString() + "=" + MapConverter.getTestSideValuesForText(entry.getValue()));
 				}).collect(Collectors.joining("&")).toString();
 			}
-			else if (bodyValue instanceof List) {
+			else if (bodyValue instanceof List list) {
 				// ["a=3", "b=4"] == "a=3&b=4"
-				return ((List) bodyValue).stream()
+				return list.stream()
 						.map(o -> convertUnicodeEscapesIfRequired(MapConverter.getTestSideValuesForText(o).toString()))
 						.collect(Collectors.joining("&")).toString();
 			}
@@ -116,8 +116,8 @@ interface BodyParser extends BodyThen {
 	 * {@link DslProperty} will return their server side values
 	 */
 	default Object extractServerValueFromBody(ContentType contentType, Object bodyValue) {
-		if (bodyValue instanceof GString) {
-			return extractValue((GString) bodyValue, contentType, ContentUtils.GET_TEST_SIDE_FUNCTION);
+		if (bodyValue instanceof GString string) {
+			return extractValue(string, contentType, ContentUtils.GET_TEST_SIDE_FUNCTION);
 		}
 		else if (bodyValue instanceof FromFileProperty) {
 			return MapConverter.transformValues(bodyValue, ContentUtils.GET_TEST_SIDE_FUNCTION);

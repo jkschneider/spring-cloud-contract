@@ -133,11 +133,11 @@ class DefaultWireMockStubPostProcessor implements WireMockStubPostProcessor {
 	}
 
 	private StubMapping stubMappingFromMetadata(Object wiremock) {
-		if (wiremock instanceof String) {
-			return StubMapping.buildFrom((String) wiremock);
+		if (wiremock instanceof String string) {
+			return StubMapping.buildFrom(string);
 		}
-		else if (wiremock instanceof StubMapping) {
-			return (StubMapping) wiremock;
+		else if (wiremock instanceof StubMapping mapping) {
+			return mapping;
 		}
 		else if (wiremock instanceof Map) {
 			try {

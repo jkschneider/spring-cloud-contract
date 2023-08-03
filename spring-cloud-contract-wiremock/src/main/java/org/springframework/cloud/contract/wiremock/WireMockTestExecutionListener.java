@@ -61,17 +61,21 @@ public final class WireMockTestExecutionListener extends AbstractTestExecutionLi
 		}
 		if (portIsFixed(testContext)) {
 			if (log.isWarnEnabled()) {
-				log.warn("You've used fixed ports for WireMock setup - "
-						+ "will mark context as dirty. Please use random ports, as much "
-						+ "as possible. Your tests will be faster and more reliable and this "
-						+ "warning will go away");
+				log.warn("""
+                        You've used fixed ports for WireMock setup - \
+                        will mark context as dirty. Please use random ports, as much \
+                        as possible. Your tests will be faster and more reliable and this \
+                        warning will go away\
+                        """);
 			}
 			testContext.markApplicationContextDirty(DirtiesContext.HierarchyMode.EXHAUSTIVE);
 		}
 		else {
 			if (log.isDebugEnabled()) {
-				log.debug("Resetting mappings for the next test to restart them. That's necessary when"
-						+ " reusing the same context with new servers running on random ports");
+				log.debug("""
+                        Resetting mappings for the next test to restart them. That's necessary when\
+                         reusing the same context with new servers running on random ports\
+                        """);
 			}
 			wireMockConfig(testContext).reRegisterServerWithResetMappings();
 		}

@@ -215,7 +215,7 @@ public class SingleContractMetadata {
 		}
 		if (allContracts.size() > 1) {
 			int index = allContracts.indexOf(getContract());
-			String name = String.format("%s_%d", camelCasedMethodFromFileName(stubsPath), index);
+			String name = "%s_%d".formatted(camelCasedMethodFromFileName(stubsPath), index);
 			log.trace("Scenario found. The method name will be [{}]", name);
 			return name;
 		}

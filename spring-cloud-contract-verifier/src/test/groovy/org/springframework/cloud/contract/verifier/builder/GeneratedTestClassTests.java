@@ -40,75 +40,79 @@ import static org.springframework.cloud.contract.verifier.util.ContractVerifierD
 public class GeneratedTestClassTests {
 
 	// @formatter:off
-	String contract = "org.springframework.cloud.contract.spec.Contract.make {\n"
-			+ " name \"foo\"\n"
-			+ " request {\n"
-			+ "  method 'PUT'\n"
-			+ "  url 'url'\n"
-			+ "  headers {\n"
-			+ "    header('foo', 'bar')\n"
-			+ "  }\n"
-			+ "  body (\n"
-			+ "    [\"foo1\":\"bar1\"]\n"
-			+ "  )\n"
-			+ " }\n"
-			+ " response {\n"
-			+ "  status OK()\n"
-			+ "  headers {\n"
-			+ "    header('foo2', 'bar2')\n"
-			+ "  }\n"
-			+ "  body (\n"
-			+ "    [\"foo3\":\"bar3\"]\n"
-			+ "  )\n"
-			+ " }\n"
-			+ "}";
+	String contract = """
+            org.springframework.cloud.contract.spec.Contract.make {
+             name "foo"
+             request {
+              method 'PUT'
+              url 'url'
+              headers {
+                header('foo', 'bar')
+              }
+              body (
+                ["foo1":"bar1"]
+              )
+             }
+             response {
+              status OK()
+              headers {
+                header('foo2', 'bar2')
+              }
+              body (
+                ["foo3":"bar3"]
+              )
+             }
+            }\
+            """;
 	// @formatter:on
 
 	// @formatter:off
-	String expectedTest = "package test;\n"
-+ "\n"
-+ "import BazBar;\n"
-+ "import com.jayway.jsonpath.DocumentContext;\n"
-+ "import com.jayway.jsonpath.JsonPath;\n"
-+ "import org.junit.Test;\n"
-+ "import org.junit.Rule;\n"
-+ "import org.junit.Ignore;\n"
-+ "import org.junit.FixMethodOrder;\n"
-+ "import org.junit.runners.MethodSorters;\n"
-+ "import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;\n"
-+ "import io.restassured.response.ResponseOptions;\n"
-+ "\n"
-+ "import static org.springframework.cloud.contract.verifier.assertion.SpringCloudContractAssertions.assertThat;\n"
-+ "import static org.springframework.cloud.contract.verifier.util.ContractVerifierUtil.*;\n"
-+ "import static com.toomuchcoding.jsonassert.JsonAssertion.assertThatJson;\n"
-+ "import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;\n"
-+ "\n"
-+ "@SuppressWarnings(\"rawtypes\")\n"
-+ "@FixMethodOrder(MethodSorters.NAME_ASCENDING)\n"
-+ "public class FooBarTest extends BazBar {\n"
-+ "\n"
-+ "\t@Test\n"
-+ "\t@Ignore\n"
-+ "\tpublic void validate_foo() throws Exception {\n"
-+ "\t\t// given:\n"
-+ "\t\t\tMockMvcRequestSpecification request = given()\n"
-+ "\t\t\t\t\t.header(\"foo\", \"bar\")\n"
-+ "\t\t\t\t\t.body(\"{\\\"foo1\\\":\\\"bar1\\\"}\");\n"
-+ "\n"
-+ "\t\t// when:\n"
-+ "\t\t\tResponseOptions response = given().spec(request)\n"
-+ "\t\t\t\t\t.put(\"url\");\n"
-+ "\n"
-+ "\t\t// then:\n"
-+ "\t\t\tassertThat(response.statusCode()).isEqualTo(200);\n"
-+ "\t\t\tassertThat(response.header(\"foo2\")).isEqualTo(\"bar2\");\n"
-+ "\n"
-+ "\t\t// and:\n"
-+ "\t\t\tDocumentContext parsedJson = JsonPath.parse(response.getBody().asString());\n"
-+ "\t\t\tassertThatJson(parsedJson).field(\"['foo3']\").isEqualTo(\"bar3\");\n"
-+ "\t}\n"
-+ "\n"
-+ "}\n";
+	String expectedTest = """
+package test;
+
+import BazBar;
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
+import org.junit.Test;
+import org.junit.Rule;
+import org.junit.Ignore;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
+import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
+import io.restassured.response.ResponseOptions;
+
+import static org.springframework.cloud.contract.verifier.assertion.SpringCloudContractAssertions.assertThat;
+import static org.springframework.cloud.contract.verifier.util.ContractVerifierUtil.*;
+import static com.toomuchcoding.jsonassert.JsonAssertion.assertThatJson;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
+
+@SuppressWarnings("rawtypes")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class FooBarTest extends BazBar {
+
+	@Test
+	@Ignore
+	public void validate_foo() throws Exception {
+		// given:
+			MockMvcRequestSpecification request = given()
+					.header("foo", "bar")
+					.body("{\\"foo1\\":\\"bar1\\"}");
+
+		// when:
+			ResponseOptions response = given().spec(request)
+					.put("url");
+
+		// then:
+			assertThat(response.statusCode()).isEqualTo(200);
+			assertThat(response.header("foo2")).isEqualTo("bar2");
+
+		// and:
+			DocumentContext parsedJson = JsonPath.parse(response.getBody().asString());
+			assertThatJson(parsedJson).field("['foo3']").isEqualTo("bar3");
+	}
+
+}
+""";
 	// @formatter:on
 
 	@Rule

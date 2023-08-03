@@ -93,8 +93,10 @@ public class AetherStubDownloader implements StubDownloader {
 		boolean remoteReposMissing = remoteReposMissing();
 		switch (stubRunnerOptions.stubsMode) {
 			case LOCAL:
-				log.info("Remote repos not passed but the switch to work offline was set. "
-						+ "Stubs will be used from your local Maven repository.");
+				log.info("""
+                        Remote repos not passed but the switch to work offline was set. \
+                        Stubs will be used from your local Maven repository.\
+                        """);
 				break;
 			case REMOTE:
 				if (remoteReposMissing) {

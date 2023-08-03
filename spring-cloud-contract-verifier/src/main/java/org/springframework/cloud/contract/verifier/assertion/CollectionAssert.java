@@ -170,19 +170,19 @@ public class CollectionAssert<ELEMENT> extends IterableAssert<ELEMENT> {
 	}
 
 	private int flattenedSize(int counter, Object object) {
-		if (object instanceof Map) {
-			return counter + ((Map) object).size();
+		if (object instanceof Map map) {
+			return counter + map.size();
 		}
-		if (object instanceof Iterator) {
-			Iterator iterator = ((Iterator) object);
+		if (object instanceof Iterator iterator1) {
+			Iterator iterator =iterator1;
 			while (iterator.hasNext()) {
 				Object next = iterator.next();
 				counter = flattenedSize(counter, next);
 			}
 			return counter;
 		}
-		if (object instanceof Iterable) {
-			return flattenedSize(counter, ((Iterable) object).iterator());
+		if (object instanceof Iterable iterable) {
+			return flattenedSize(counter, iterable.iterator());
 		}
 		return ++counter;
 	}

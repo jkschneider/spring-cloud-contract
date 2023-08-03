@@ -67,8 +67,7 @@ public class ClasspathStubProvider implements StubDownloaderBuilder {
 
 	private RepoRoots repoRoot(StubRunnerOptions stubRunnerOptions, StubConfiguration configuration) {
 		Resource repositoryRoot = stubRunnerOptions.getStubRepositoryRoot();
-		if (repositoryRoot instanceof ClassPathResource) {
-			ClassPathResource classPathResource = (ClassPathResource) repositoryRoot;
+		if (repositoryRoot instanceof ClassPathResource classPathResource) {
 			String path = classPathResource.getPath();
 			if (StringUtils.hasText(path)) {
 				return RepoRoots.asList(new RepoRoot(stubRunnerOptions.getStubRepositoryRootAsString()));

@@ -57,14 +57,14 @@ class MessagingHeadersThen implements Then, BodyMethodVisitor {
 	}
 
 	private void processHeaderElement(String property, Object value) {
-		if (value instanceof Number) {
-			processHeaderElement(property, (Number) value);
+		if (value instanceof Number number) {
+			processHeaderElement(property, number);
 		}
-		else if (value instanceof Pattern) {
-			processHeaderElement(property, (Pattern) value);
+		else if (value instanceof Pattern pattern) {
+			processHeaderElement(property, pattern);
 		}
-		else if (value instanceof ExecutionProperty) {
-			processHeaderElement(property, (ExecutionProperty) value);
+		else if (value instanceof ExecutionProperty executionProperty) {
+			processHeaderElement(property, executionProperty);
 		}
 		else {
 			processHeaderElement(property, value.toString());

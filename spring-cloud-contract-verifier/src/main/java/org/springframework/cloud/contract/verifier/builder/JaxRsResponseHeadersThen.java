@@ -65,15 +65,15 @@ class JaxRsResponseHeadersThen implements Then {
 	}
 
 	private String processHeaderElement(String property, Object value) {
-		if (value instanceof NotToEscapePattern) {
+		if (value instanceof NotToEscapePattern pattern) {
 			return this.comparisonBuilder.assertThat("response.getHeaderString(\"" + property + "\")")
-					+ this.comparisonBuilder.createComparison(((NotToEscapePattern) value).getServerValue());
+					+ this.comparisonBuilder.createComparison(pattern.getServerValue());
 		}
 		else if (value instanceof Number) {
 			return this.comparisonBuilder.assertThat("response.getHeaderString(\"" + property + "\")", value);
 		}
-		else if (value instanceof ExecutionProperty) {
-			return ((ExecutionProperty) value).insertValue("response.getHeaderString(\"" + property + "\")");
+		else if (value instanceof ExecutionProperty executionProperty) {
+			return executionProperty.insertValue("response.getHeaderString(\"" + property + "\")");
 		}
 		else {
 			return this.comparisonBuilder.assertThat("response.getHeaderString(\"" + property + "\")")

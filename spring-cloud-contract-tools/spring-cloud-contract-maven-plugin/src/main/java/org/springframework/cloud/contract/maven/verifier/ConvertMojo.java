@@ -197,9 +197,9 @@ public class ConvertMojo extends AbstractMojo {
 	@Override
 	public void execute() throws MojoExecutionException {
 		if (this.skip) {
-			getLog().info(String.format(
-					"Skipping Spring Cloud Contract Verifier execution: spring.cloud.contract.verifier.skip=%s",
-					this.skip));
+			getLog().info(
+                    "Skipping Spring Cloud Contract Verifier execution: spring.cloud.contract.verifier.skip=%s".formatted(
+                            this.skip));
 			return;
 		}
 		String groupId = this.project.getGroupId();
@@ -264,9 +264,9 @@ public class ConvertMojo extends AbstractMojo {
 			getLog().debug("The contracts dir equals [" + contractsDslDir + "]");
 		}
 		getLog().info("Converting from Spring Cloud Contract Verifier contracts to WireMock stubs mappings");
-		getLog().info(String.format("     Spring Cloud Contract Verifier contracts directory: %s",
-				config.getContractsDslDir()));
-		getLog().info(String.format("Stub Server stubs mappings directory: %s", config.getStubsOutputDir()));
+		getLog().info("     Spring Cloud Contract Verifier contracts directory: %s".formatted(
+                config.getContractsDslDir()));
+		getLog().info("Stub Server stubs mappings directory: %s".formatted(config.getStubsOutputDir()));
 	}
 
 	private File contractSubfolderIfPresent(File contractsDirectory) {

@@ -46,10 +46,12 @@ public final class StubRunnerWireMockTestExecutionListener extends AbstractTestE
 		if (!WireMockHttpServerStub.SERVERS.isEmpty()
 				&& WireMockHttpServerStub.SERVERS.values().stream().noneMatch(p -> p.random)) {
 			if (log.isWarnEnabled()) {
-				log.warn("You've used fixed ports for WireMock setup - "
-						+ "will mark context as dirty. Please use random ports, as much "
-						+ "as possible. Your tests will be faster and more reliable and this "
-						+ "warning will go away");
+				log.warn("""
+                        You've used fixed ports for WireMock setup - \
+                        will mark context as dirty. Please use random ports, as much \
+                        as possible. Your tests will be faster and more reliable and this \
+                        warning will go away\
+                        """);
 			}
 			testContext.markApplicationContextDirty(DirtiesContext.HierarchyMode.EXHAUSTIVE);
 		}

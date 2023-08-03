@@ -46,8 +46,8 @@ public class Multipart extends DslProperty {
 	}
 
 	public static Multipart build(Object value) {
-		if (value instanceof MatchingStrategy) {
-			return new Multipart((MatchingStrategy) value);
+		if (value instanceof MatchingStrategy strategy) {
+			return new Multipart(strategy);
 		}
 		return new Multipart(value);
 	}

@@ -28,8 +28,10 @@ class ContractVerifierMetadataTests {
 	@Test
 	void should_parse_the_metadata_entry() throws JsonProcessingException {
 		// @formatter:off
-		String yamlEntry = "verifier:\n"
-				+ "  tool: graphql";
+		String yamlEntry = """
+                verifier:
+                  tool: graphql\
+                """;
 		// @formatter:on
 
 		ContractVerifierMetadata metadata = ContractVerifierMetadata

@@ -30,65 +30,67 @@ import org.springframework.cloud.contract.verifier.converter.YamlContractConvert
 class AdditionalResourcesGenerationTests {
 
 	// @formatter:off
-	private static final String CONTRACT = "description: Some description\n"
-			+ "name: some name\n"
-			+ "priority: 8\n"
-			+ "ignored: true\n"
-			+ "inProgress: true\n"
-			+ "request:\n"
-			+ "  method: PUT\n"
-			+ "  url: /foo\n"
-			+ "  queryParameters:\n"
-			+ "    a: b\n"
-			+ "    b: c\n"
-			+ "  headers:\n"
-			+ "    foo: bar\n"
-			+ "    fooReq: baz\n"
-			+ "  cookies:\n"
-			+ "    foo: bar\n"
-			+ "    fooReq: baz\n"
-			+ "  body:\n"
-			+ "    foo: bar\n"
-			+ "  matchers:\n"
-			+ "    body:\n"
-			+ "      - path: $.foo\n"
-			+ "        type: by_regex\n"
-			+ "        value: bar\n"
-			+ "    headers:\n"
-			+ "      - key: foo\n"
-			+ "        regex: bar\n"
-			+ "response:\n"
-			+ "  status: 200\n"
-			+ "  fixedDelayMilliseconds: 1000\n"
-			+ "  headers:\n"
-			+ "    foo2: bar\n"
-			+ "    foo3: foo33\n"
-			+ "    fooRes: baz\n"
-			+ "  body:\n"
-			+ "    foo2: bar\n"
-			+ "    foo3: baz\n"
-			+ "    nullValue: null\n"
-			+ "  matchers:\n"
-			+ "    body:\n"
-			+ "      - path: $.foo2\n"
-			+ "        type: by_regex\n"
-			+ "        value: bar\n"
-			+ "      - path: $.foo3\n"
-			+ "        type: by_command\n"
-			+ "        value: executeMe($it)\n"
-			+ "      - path: $.nullValue\n"
-			+ "        type: by_null\n"
-			+ "        value: null\n"
-			+ "    headers:\n"
-			+ "      - key: foo2\n"
-			+ "        regex: bar\n"
-			+ "      - key: foo3\n"
-			+ "        command: andMeToo($it)\n"
-			+ "    cookies:\n"
-			+ "      - key: foo2\n"
-			+ "        regex: bar\n"
-			+ "      - key: foo3\n"
-			+ "        predefined:\n";
+	private static final String CONTRACT = """
+            description: Some description
+            name: some name
+            priority: 8
+            ignored: true
+            inProgress: true
+            request:
+              method: PUT
+              url: /foo
+              queryParameters:
+                a: b
+                b: c
+              headers:
+                foo: bar
+                fooReq: baz
+              cookies:
+                foo: bar
+                fooReq: baz
+              body:
+                foo: bar
+              matchers:
+                body:
+                  - path: $.foo
+                    type: by_regex
+                    value: bar
+                headers:
+                  - key: foo
+                    regex: bar
+            response:
+              status: 200
+              fixedDelayMilliseconds: 1000
+              headers:
+                foo2: bar
+                foo3: foo33
+                fooRes: baz
+              body:
+                foo2: bar
+                foo3: baz
+                nullValue: null
+              matchers:
+                body:
+                  - path: $.foo2
+                    type: by_regex
+                    value: bar
+                  - path: $.foo3
+                    type: by_command
+                    value: executeMe($it)
+                  - path: $.nullValue
+                    type: by_null
+                    value: null
+                headers:
+                  - key: foo2
+                    regex: bar
+                  - key: foo3
+                    command: andMeToo($it)
+                cookies:
+                  - key: foo2
+                    regex: bar
+                  - key: foo3
+                    predefined:
+            """;
 	// @formatter:on
 
 	@Test

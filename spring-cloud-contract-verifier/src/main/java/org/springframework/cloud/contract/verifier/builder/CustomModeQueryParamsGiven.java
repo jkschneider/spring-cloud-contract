@@ -73,11 +73,11 @@ class CustomModeQueryParamsGiven implements Given, CustomModeAcceptor, QueryPara
 	}
 
 	private boolean allowedQueryParameter(Object o) {
-		if (o instanceof QueryParameter) {
-			return allowedQueryParameter(((QueryParameter) o).getServerValue());
+		if (o instanceof QueryParameter parameter) {
+			return allowedQueryParameter(parameter.getServerValue());
 		}
-		else if (o instanceof MatchingStrategy) {
-			return !MatchingStrategy.Type.ABSENT.equals(((MatchingStrategy) o).getType());
+		else if (o instanceof MatchingStrategy strategy) {
+			return !MatchingStrategy.Type.ABSENT.equals(strategy.getType());
 		}
 		return true;
 	}

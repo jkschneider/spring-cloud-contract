@@ -132,8 +132,8 @@ abstract class BaseWireMockStubStrategy {
 
 	private Object processEntriesForTemplating(Object transformedMap, DocumentContext context) {
 		return transformValues(transformedMap, (val) -> {
-			if (val instanceof String && processor.containsJsonPathTemplateEntry((String) val)) {
-				String jsonPath = processor.jsonPathFromTemplateEntry((String) val);
+			if (val instanceof String string && processor.containsJsonPathTemplateEntry(string)) {
+				String jsonPath = processor.jsonPathFromTemplateEntry(string);
 				if (jsonPath == null) {
 					return val;
 				}
@@ -143,7 +143,7 @@ abstract class BaseWireMockStubStrategy {
 				}
 				return WRAPPER + val + WRAPPER;
 			}
-			else if (val instanceof String && processor.containsTemplateEntry((String) val)
+			else if (val instanceof String string && processor.containsTemplateEntry(string)
 					&& template.escapedBody().equals(val)) {
 				return template.escapedBody();
 			}
@@ -160,14 +160,14 @@ abstract class BaseWireMockStubStrategy {
 			if (l instanceof Map) {
 				result.add(MapConverter.getStubSideValues(l));
 			}
-			else if (l instanceof List) {
-				result.add(parseBody((List<?>) l, contentType));
+			else if (l instanceof List list1) {
+				result.add(parseBody(list1, contentType));
 			}
-			else if (l instanceof Boolean) {
-				result.add(parseBody((Boolean) l, contentType));
+			else if (l instanceof Boolean boolean1) {
+				result.add(parseBody(boolean1, contentType));
 			}
-			else if (l instanceof Number) {
-				result.add(parseBody((Number) l, contentType));
+			else if (l instanceof Number number) {
+				result.add(parseBody(number, contentType));
 			}
 			else if (l == null) {
 				result.add(null);
@@ -184,7 +184,7 @@ abstract class BaseWireMockStubStrategy {
 	 */
 	String parseBody(GString value, ContentType contentType) {
 		Object processedValue = extractValue(value, contentType,
-				(o) -> o instanceof DslProperty ? ((DslProperty<?>) o).getClientValue() : o);
+				(o) -> o instanceof DslProperty dp ? dp.getClientValue() : o);
 		if (processedValue instanceof GString) {
 			return parseBody(processedValue.toString(), contentType);
 		}
@@ -202,7 +202,7 @@ abstract class BaseWireMockStubStrategy {
 		try {
 			if (value instanceof Map) {
 				Object convertedMap = MapConverter.transformValues(value,
-						(v) -> v instanceof GString ? ((GString) v).toString() : v);
+						(v) -> v instanceof GString gs ? gs.toString() : v);
 				String jsonOutput = new ObjectMapper().writeValueAsString(convertedMap);
 				return jsonOutput.replaceAll("\\\\\\\\\\\\", "\\\\");
 			}

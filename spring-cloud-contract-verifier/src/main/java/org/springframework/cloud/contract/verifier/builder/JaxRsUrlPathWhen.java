@@ -88,8 +88,8 @@ class JaxRsUrlPathWhen implements When, JaxRsAcceptor, QueryParamsResolver {
 
 	private String getQueryParamValue(QueryParameter param) {
 		Object serverValue = param.getServerValue();
-		if (serverValue instanceof ExecutionProperty) {
-			return ((ExecutionProperty) serverValue).getExecutionCommand();
+		if (serverValue instanceof ExecutionProperty property) {
+			return property.getExecutionCommand();
 		}
 		return this.bodyParser.quotedShortText(resolveParamValue(param));
 	}
@@ -112,14 +112,14 @@ class JaxRsUrlPathWhen implements When, JaxRsAcceptor, QueryParamsResolver {
 	 * @return {@code true} if the query parameter is allowed
 	 */
 	private boolean allowedQueryParameter(Object o) {
-		if (o instanceof QueryParameter) {
-			return allowedQueryParameter((QueryParameter) o);
+		if (o instanceof QueryParameter parameter) {
+			return allowedQueryParameter(parameter);
 		}
-		else if (o instanceof MatchingStrategy) {
-			return allowedQueryParameter((MatchingStrategy) o);
+		else if (o instanceof MatchingStrategy strategy) {
+			return allowedQueryParameter(strategy);
 		}
-		else if (o instanceof DslProperty) {
-			return allowedQueryParameter(((DslProperty) o).getServerValue());
+		else if (o instanceof DslProperty property) {
+			return allowedQueryParameter(property.getServerValue());
 		}
 		return true;
 	}

@@ -101,7 +101,7 @@ public abstract class WireMockVerifyHelper<T, S extends WireMockVerifyHelper<T, 
 	private void compile(String expression, Object... args) {
 		org.springframework.util.Assert.hasText((expression == null ? null : expression),
 				"expression must not be null or empty");
-		expression = String.format(expression, args);
+		expression = expression.formatted(args);
 		this.jsonPaths.put(expression, JsonPath.compile(expression));
 	}
 

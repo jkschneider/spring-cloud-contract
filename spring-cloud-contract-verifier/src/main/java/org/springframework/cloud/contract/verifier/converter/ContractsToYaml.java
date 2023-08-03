@@ -146,12 +146,12 @@ class ContractsToYaml {
 			yamlContractRequest.matchers.multipart = new YamlContract.MultipartStubMatcher();
 			Map<String, Object> map = (Map<String, Object>) MapConverter.getStubSideValues(multipart);
 			map.forEach((key, value) -> {
-				if (value instanceof NamedProperty) {
-					Object fileName = Optional.ofNullable(((NamedProperty) value).getName())
+				if (value instanceof NamedProperty property) {
+					Object fileName = Optional.ofNullable(property.getName())
 							.map(DslProperty::getClientValue).orElse(null);
-					Object fileContent = Optional.ofNullable(((NamedProperty) value).getValue())
+					Object fileContent = Optional.ofNullable(property.getValue())
 							.map(DslProperty::getClientValue).orElse(null);
-					Object contentType = Optional.ofNullable(((NamedProperty) value).getContentType())
+					Object contentType = Optional.ofNullable(property.getContentType())
 							.map(DslProperty::getClientValue).orElse(null);
 					if (fileName instanceof RegexProperty || fileContent instanceof RegexProperty
 							|| contentType instanceof RegexProperty) {
@@ -178,8 +178,8 @@ class ContractsToYaml {
 	private void mapRequestMatchersUrl(YamlContract.Request yamlContractRequest, Request request) {
 		Object url = Optional.ofNullable(request.getUrl()).map(Url::getClientValue).orElse(null);
 		YamlContract.KeyValueMatcher keyValueMatcher = new YamlContract.KeyValueMatcher();
-		if (url instanceof RegexProperty) {
-			keyValueMatcher.regex = ((RegexProperty) url).pattern();
+		if (url instanceof RegexProperty property) {
+			keyValueMatcher.regex = property.pattern();
 			yamlContractRequest.matchers.url = keyValueMatcher;
 		}
 		else if (url instanceof ExecutionProperty) {
@@ -191,8 +191,8 @@ class ContractsToYaml {
 		}
 
 		Object urlPath = Optional.ofNullable(request.getUrlPath()).map(Url::getClientValue).orElse(null);
-		if (urlPath instanceof RegexProperty) {
-			keyValueMatcher.regex = ((RegexProperty) urlPath).pattern();
+		if (urlPath instanceof RegexProperty property) {
+			keyValueMatcher.regex = property.pattern();
 			yamlContractRequest.matchers.url = keyValueMatcher;
 		}
 		else if (urlPath instanceof ExecutionProperty) {
@@ -223,12 +223,12 @@ class ContractsToYaml {
 			yamlContractRequest.multipart = new YamlContract.Multipart();
 			Map<String, Object> map = (Map<String, Object>) MapConverter.getTestSideValues(multipart);
 			map.forEach((key, value) -> {
-				if (value instanceof NamedProperty) {
-					Object fileName = Optional.ofNullable(((NamedProperty) value).getName())
+				if (value instanceof NamedProperty property) {
+					Object fileName = Optional.ofNullable(property.getName())
 							.map(DslProperty::getServerValue).orElse(null);
-					Object contentType = Optional.ofNullable(((NamedProperty) value).getContentType())
+					Object contentType = Optional.ofNullable(property.getContentType())
 							.map(DslProperty::getServerValue).orElse(null);
-					Object fileContent = Optional.ofNullable(((NamedProperty) value).getValue())
+					Object fileContent = Optional.ofNullable(property.getValue())
 							.map(DslProperty::getServerValue).orElse(null);
 					YamlContract.Named named = new YamlContract.Named();
 					named.paramName = key;
@@ -236,8 +236,8 @@ class ContractsToYaml {
 							.map(DslProperty::getServerValue).map(Object::toString).orElse(null) : null;
 					named.fileContent = (String) Optional.ofNullable(fileContent).filter(f -> f instanceof String)
 							.orElse(null);
-					named.fileContentAsBytes = fileContent instanceof FromFileProperty
-							? new String(((FromFileProperty) fileContent).asBytes()) : null;
+					named.fileContentAsBytes = fileContent instanceof FromFileProperty ffp
+							? new String(ffp.asBytes()) : null;
 					named.fileContentFromFileAsBytes = resolveFileNameAsBytes(fileContent);
 					named.contentType = (String) Optional.ofNullable(contentType).filter(f -> f instanceof String)
 							.orElse(null);
@@ -255,8 +255,7 @@ class ContractsToYaml {
 
 	private void mapRequestBody(YamlContract.Request yamlContractRequest, Request request) {
 		Object body = Optional.ofNullable(request.getBody()).map(DslProperty::getServerValue).orElse(null);
-		if (body instanceof FromFileProperty) {
-			FromFileProperty fromFileProperty = (FromFileProperty) body;
+		if (body instanceof FromFileProperty fromFileProperty) {
 			if (fromFileProperty.isByte()) {
 				yamlContractRequest.bodyFromFileAsBytes = fromFileProperty.fileName();
 			}
@@ -295,11 +294,11 @@ class ContractsToYaml {
 						queryParameterMatcher.value = new RegexProperty(stubSide).pattern();
 						return queryParameterMatcher;
 					}
-					else if (stubSide instanceof MatchingStrategy) {
+					else if (stubSide instanceof MatchingStrategy strategy) {
 						YamlContract.QueryParameterMatcher queryParameterMatcher = new YamlContract.QueryParameterMatcher();
 						queryParameterMatcher.key = parameter.getName();
 						queryParameterMatcher.type = YamlContract.MatchingType
-								.from(((MatchingStrategy) stubSide).getType().getName());
+								.from(strategy.getType().getName());
 						queryParameterMatcher.value = MapConverter.getStubSideValuesForNonBody(stubSide);
 						return queryParameterMatcher;
 					}
@@ -454,12 +453,12 @@ class ContractsToYaml {
 
 	private void mapResponseBody(Response contractResponse, YamlContract.Response response) {
 		Object body = Optional.ofNullable(contractResponse.getBody()).map(DslProperty::getClientValue).orElse(null);
-		if (body instanceof FromFileProperty) {
-			if (((FromFileProperty) body).isByte()) {
-				response.bodyFromFileAsBytes = ((FromFileProperty) body).fileName();
+		if (body instanceof FromFileProperty property) {
+			if (property.isByte()) {
+				response.bodyFromFileAsBytes = property.fileName();
 			}
-			if (((FromFileProperty) body).isString()) {
-				response.bodyFromFile = ((FromFileProperty) body).fileName();
+			if (property.isString()) {
+				response.bodyFromFile = property.fileName();
 			}
 		}
 		else {
@@ -536,16 +535,16 @@ class ContractsToYaml {
 						testHeaderMatcher.regexType = regexType(property.clazz());
 						headerMatchers.add(testHeaderMatcher);
 					}
-					else if (value instanceof ExecutionProperty) {
+					else if (value instanceof ExecutionProperty property) {
 						YamlContract.TestHeaderMatcher testHeaderMatcher = new YamlContract.TestHeaderMatcher();
 						testHeaderMatcher.key = key;
-						testHeaderMatcher.command = ((ExecutionProperty) value).getExecutionCommand();
+						testHeaderMatcher.command = property.getExecutionCommand();
 						headerMatchers.add(testHeaderMatcher);
 					}
-					else if (value instanceof NotToEscapePattern) {
+					else if (value instanceof NotToEscapePattern pattern) {
 						YamlContract.TestHeaderMatcher testHeaderMatcher = new YamlContract.TestHeaderMatcher();
 						testHeaderMatcher.key = key;
-						testHeaderMatcher.regex = (((NotToEscapePattern) value).getServerValue()).pattern();
+						testHeaderMatcher.regex = (pattern.getServerValue()).pattern();
 						headerMatchers.add(testHeaderMatcher);
 					}
 				}));

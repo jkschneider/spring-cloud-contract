@@ -42,8 +42,8 @@ class BodyAssertionLineCreator {
 	}
 
 	void appendBodyAssertionLine(SingleContractMetadata metadata, String property, Object value) {
-		if (value instanceof String && ((String) value).startsWith("$")) {
-			String newValue = stripFirstChar((String) value).replaceAll("\\$value", "responseBody" + property);
+		if (value instanceof String string && string.startsWith("$")) {
+			String newValue = stripFirstChar(string).replaceAll("\\$value", "responseBody" + property);
 			this.blockBuilder.addLineWithEnding(newValue);
 		}
 		else {
@@ -57,18 +57,18 @@ class BodyAssertionLineCreator {
 	 */
 	private String getResponseBodyPropertyComparisonString(SingleContractMetadata singleContractMetadata,
 			String property, Object value) {
-		if (value instanceof FromFileProperty) {
-			return getResponseBodyPropertyComparisonString(singleContractMetadata, property, (FromFileProperty) value);
+		if (value instanceof FromFileProperty fileProperty) {
+			return getResponseBodyPropertyComparisonString(singleContractMetadata, property, fileProperty);
 		}
-		else if (value instanceof Pattern) {
-			return getResponseBodyPropertyComparisonString(property, (Pattern) value);
+		else if (value instanceof Pattern pattern) {
+			return getResponseBodyPropertyComparisonString(property, pattern);
 		}
-		else if (value instanceof ExecutionProperty) {
-			return getResponseBodyPropertyComparisonString(property, (ExecutionProperty) value);
+		else if (value instanceof ExecutionProperty executionProperty) {
+			return getResponseBodyPropertyComparisonString(property, executionProperty);
 		}
-		else if (value instanceof DslProperty) {
+		else if (value instanceof DslProperty dslProperty) {
 			return getResponseBodyPropertyComparisonString(singleContractMetadata, property,
-					((DslProperty) value).getServerValue());
+					dslProperty.getServerValue());
 		}
 		return getResponseBodyPropertyComparisonString(property, value.toString());
 	}

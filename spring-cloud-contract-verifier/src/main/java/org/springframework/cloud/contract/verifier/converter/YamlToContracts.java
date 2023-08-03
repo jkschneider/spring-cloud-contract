@@ -211,8 +211,8 @@ class YamlToContracts {
 	private void handleQueryParameters(YamlContract yamlContract, Url url) {
 		if (yamlContract.request.queryParameters != null) {
 			url.queryParameters((queryParameters -> yamlContract.request.queryParameters.forEach((key, value) -> {
-				if (value instanceof List) {
-					((List<?>) value)
+				if (value instanceof List list) {
+					list
 							.forEach(v -> queryParameters.parameter(key, queryParamValue(yamlContract, key, v)));
 				}
 				else {
@@ -229,8 +229,8 @@ class YamlToContracts {
 				List<YamlContract.KeyValueMatcher> matchers = yamlContractRequest.matchers.headers.stream()
 						.filter((header) -> header.key.equals(key)).collect(Collectors.toList());
 				matchers.forEach(matcher -> {
-					if (value instanceof List) {
-						((List<?>) value)
+					if (value instanceof List list) {
+						list
 								.forEach(v -> headers.header(key, clientValue(v, matcher, key).getClientValue()));
 					}
 					else {
@@ -404,8 +404,8 @@ class YamlToContracts {
 					YamlContract.TestHeaderMatcher matcher = yamlContractResponse.matchers.headers.stream()
 							.filter(h -> h.key.equals(key)).findFirst().orElse(null);
 
-					if (value instanceof List) {
-						((List<?>) value).forEach(v -> {
+					if (value instanceof List list) {
+						list.forEach(v -> {
 							Object serverValue = serverValue(v, matcher, key);
 							headers.header(key, new DslProperty<>(v, serverValue));
 						});
@@ -747,7 +747,7 @@ class YamlToContracts {
 	}
 
 	protected DslProperty<?> clientValue(Object value, YamlContract.KeyValueMatcher matcher, String key) {
-		Object clientValue = value instanceof DslProperty ? ((DslProperty<?>) value).getClientValue() : value;
+		Object clientValue = value instanceof DslProperty dp ? dp.getClientValue() : value;
 		if (matcher != null && matcher.regex != null) {
 			clientValue = Pattern.compile(matcher.regex);
 			Pattern pattern = (Pattern) clientValue;
@@ -796,7 +796,7 @@ class YamlToContracts {
 		if (matcher != null && matcher.command != null) {
 			return new ExecutionProperty(matcher.command);
 		}
-		return value instanceof DslProperty ? ((DslProperty<?>) value).getServerValue() : value;
+		return value instanceof DslProperty dp ? dp.getServerValue() : value;
 	}
 
 	private void assertPatternMatched(Pattern pattern, Object value, String key) {

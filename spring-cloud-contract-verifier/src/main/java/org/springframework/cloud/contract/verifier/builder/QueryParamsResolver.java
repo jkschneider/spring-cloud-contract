@@ -27,17 +27,17 @@ interface QueryParamsResolver {
 	 * Converts the query parameter value into String
 	 */
 	default String resolveParamValue(Object value) {
-		if (value instanceof QueryParameter) {
-			return resolveParamValue(((QueryParameter) value).getServerValue());
+		if (value instanceof QueryParameter parameter) {
+			return resolveParamValue(parameter.getServerValue());
 		}
-		else if (value instanceof OptionalProperty) {
-			return resolveParamValue(((OptionalProperty) value).optionalPattern());
+		else if (value instanceof OptionalProperty property) {
+			return resolveParamValue(property.optionalPattern());
 		}
-		else if (value instanceof MatchingStrategy) {
-			return resolveParamValue(((MatchingStrategy) value).getServerValue());
+		else if (value instanceof MatchingStrategy strategy) {
+			return resolveParamValue(strategy.getServerValue());
 		}
-		else if (value instanceof DslProperty) {
-			return resolveParamValue(((DslProperty) value).getServerValue());
+		else if (value instanceof DslProperty property) {
+			return resolveParamValue(property.getServerValue());
 		}
 		return value == null ? "null" : value.toString();
 	}

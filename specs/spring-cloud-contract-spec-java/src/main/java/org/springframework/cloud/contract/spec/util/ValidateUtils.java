@@ -49,18 +49,17 @@ public final class ValidateUtils {
 	 * @return object if everything is fine
 	 */
 	public static Object validateServerValueIsAvailable(Object value, String msg) {
-		if (value instanceof Pattern) {
-			validateServerValue((Pattern) value, msg);
+		if (value instanceof Pattern pattern) {
+			validateServerValue(pattern, msg);
 		}
-		else if (value instanceof RegexProperty) {
-			RegexProperty property = (RegexProperty) value;
+		else if (value instanceof RegexProperty property) {
 			validateServerValue(property.getPattern(), msg);
 		}
-		else if (value instanceof MatchingStrategy) {
-			validateServerValue((MatchingStrategy) value, msg);
+		else if (value instanceof MatchingStrategy strategy) {
+			validateServerValue(strategy, msg);
 		}
-		else if (value instanceof DslProperty) {
-			validateServerValue((DslProperty) value, msg);
+		else if (value instanceof DslProperty property) {
+			validateServerValue(property, msg);
 		}
 		else {
 			validateServerValue(value, msg);

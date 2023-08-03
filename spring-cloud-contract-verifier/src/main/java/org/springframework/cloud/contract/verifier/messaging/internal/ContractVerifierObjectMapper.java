@@ -41,8 +41,8 @@ public class ContractVerifierObjectMapper {
 		if (payload instanceof String) {
 			return payload.toString();
 		}
-		else if (payload instanceof byte[]) {
-			return new String((byte[]) payload);
+		else if (payload instanceof byte[] bytes) {
+			return new String(bytes);
 		}
 		return this.objectMapper.writeValueAsString(payload);
 	}
@@ -51,8 +51,8 @@ public class ContractVerifierObjectMapper {
 		if (payload instanceof String) {
 			return payload.toString().getBytes();
 		}
-		else if (payload instanceof byte[]) {
-			return (byte[]) payload;
+		else if (payload instanceof byte[] bytes) {
+			return bytes;
 		}
 		return this.objectMapper.writeValueAsBytes(payload);
 	}

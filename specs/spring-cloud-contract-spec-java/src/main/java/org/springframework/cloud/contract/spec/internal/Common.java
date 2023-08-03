@@ -48,7 +48,7 @@ public class Common {
 
 	private static <T> BinaryOperator<T> throwingMerger() {
 		return (u, v) -> {
-			throw new IllegalStateException(String.format("Duplicate key %s", u));
+			throw new IllegalStateException("Duplicate key %s".formatted(u));
 		};
 	}
 
@@ -271,42 +271,42 @@ public class Common {
 	}
 
 	public void assertThatSidesMatch(Object firstSide, Object secondSide) {
-		if (firstSide instanceof OptionalProperty) {
+		if (firstSide instanceof OptionalProperty property) {
 			if (secondSide == null) {
 				return;
 			}
-			assertThat(secondSide.toString().matches(((OptionalProperty) firstSide).optionalPattern()),
-					"Pattern [" + ((OptionalProperty) firstSide).optionalPattern() + "] is not matched by ["
+			assertThat(secondSide.toString().matches(property.optionalPattern()),
+					"Pattern [" + property.optionalPattern() + "] is not matched by ["
 							+ secondSide.toString() + "]");
 		}
-		else if ((firstSide instanceof Pattern || firstSide instanceof RegexProperty) && secondSide instanceof String) {
-			Pattern pattern = firstSide instanceof Pattern ? (Pattern) firstSide
+		else if ((firstSide instanceof Pattern || firstSide instanceof RegexProperty) && secondSide instanceof String string) {
+			Pattern pattern = firstSide instanceof Pattern p ? p
 					: ((RegexProperty) firstSide).getPattern();
-			assertThat(((String) secondSide).toString().matches(pattern.pattern()),
+			assertThat(string.toString().matches(pattern.pattern()),
 					"Pattern [" + pattern.pattern() + "] is not matched by [" + secondSide.toString() + "]");
 		}
 		else if ((secondSide instanceof Pattern || secondSide instanceof RegexProperty)
-				&& firstSide instanceof String) {
-			Pattern pattern = secondSide instanceof Pattern ? (Pattern) secondSide
+				&& firstSide instanceof String string) {
+			Pattern pattern = secondSide instanceof Pattern p ? p
 					: ((RegexProperty) secondSide).getPattern();
-			assertThat(((String) firstSide).matches(pattern.pattern()),
+			assertThat(string.matches(pattern.pattern()),
 					"Pattern [" + pattern.pattern() + "] is not matched by [" + firstSide.toString() + "]");
 		}
-		else if (firstSide instanceof MatchingStrategy && secondSide instanceof MatchingStrategy) {
-			if (((MatchingStrategy) firstSide).getType().equals(MatchingStrategy.Type.ABSENT)
-					&& !((MatchingStrategy) secondSide).getType().equals(MatchingStrategy.Type.ABSENT)) {
+		else if (firstSide instanceof MatchingStrategy strategy && secondSide instanceof MatchingStrategy strategy) {
+			if (strategy.getType().equals(MatchingStrategy.Type.ABSENT)
+					&& !strategy.getType().equals(MatchingStrategy.Type.ABSENT)) {
 				throwAbsentError();
 			}
 
 		}
-		else if (firstSide instanceof MatchingStrategy) {
-			if (((MatchingStrategy) firstSide).getType().equals(MatchingStrategy.Type.ABSENT)) {
+		else if (firstSide instanceof MatchingStrategy strategy) {
+			if (strategy.getType().equals(MatchingStrategy.Type.ABSENT)) {
 				throwAbsentError();
 			}
 
 		}
-		else if (secondSide instanceof MatchingStrategy) {
-			if (((MatchingStrategy) secondSide).getType().equals(MatchingStrategy.Type.ABSENT)) {
+		else if (secondSide instanceof MatchingStrategy strategy) {
+			if (strategy.getType().equals(MatchingStrategy.Type.ABSENT)) {
 				throwAbsentError();
 			}
 

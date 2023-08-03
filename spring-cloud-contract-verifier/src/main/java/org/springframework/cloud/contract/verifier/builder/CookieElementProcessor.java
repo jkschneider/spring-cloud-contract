@@ -51,10 +51,10 @@ interface CookieElementProcessor {
 	BlockBuilder blockBuilder();
 
 	default String processCookieElement(String property, Object value) {
-		if (value instanceof NotToEscapePattern) {
+		if (value instanceof NotToEscapePattern pattern) {
 			verifyCookieNotNull(property);
 			return comparisonBuilder().assertThat(cookieValue(property)) + comparisonBuilder()
-					.matches(((NotToEscapePattern) value).getServerValue().pattern().replace("\\", "\\\\"));
+					.matches(pattern.getServerValue().pattern().replace("\\", "\\\\"));
 		}
 		else if (value instanceof String || value instanceof Pattern) {
 			verifyCookieNotNull(property);
@@ -64,9 +64,9 @@ interface CookieElementProcessor {
 			verifyCookieNotNull(property);
 			return comparisonBuilder().assertThat(cookieValue(property), value);
 		}
-		else if (value instanceof ExecutionProperty) {
+		else if (value instanceof ExecutionProperty executionProperty) {
 			verifyCookieNotNull(property);
-			return ((ExecutionProperty) value).insertValue(cookieValue(property));
+			return executionProperty.insertValue(cookieValue(property));
 
 		}
 		else {

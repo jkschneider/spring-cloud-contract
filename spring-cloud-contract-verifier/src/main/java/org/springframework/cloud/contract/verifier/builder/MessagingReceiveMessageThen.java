@@ -53,8 +53,8 @@ class MessagingReceiveMessageThen implements Then, BodyMethodVisitor {
 	}
 
 	private String sentToValue(Object sentTo) {
-		if (sentTo instanceof ExecutionProperty) {
-			return ((ExecutionProperty) sentTo).getExecutionCommand();
+		if (sentTo instanceof ExecutionProperty property) {
+			return property.getExecutionCommand();
 		}
 		return '"' + sentTo.toString() + '"';
 	}

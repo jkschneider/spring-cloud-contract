@@ -63,7 +63,7 @@ public class DslProperty<T> implements Serializable {
 	}
 
 	private Object stringPatternIfPattern(Object value) {
-		return value instanceof Pattern ? ((Pattern) value).pattern() : value;
+		return value instanceof Pattern p ? p.pattern() : value;
 	}
 
 	@Override

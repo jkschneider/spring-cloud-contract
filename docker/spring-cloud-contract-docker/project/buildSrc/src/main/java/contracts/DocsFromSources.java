@@ -40,9 +40,11 @@ import org.jboss.forge.roaster.model.source.JavaDocSource;
 public class DocsFromSources {
 
 	private static final String ADOC_HEADER =
-			".Docker environment variables - read at runtime\n"
-			+ "|===\n"
-			+ "|Name | Description | Default\n";
+			"""
+            .Docker environment variables - read at runtime
+            |===
+            |Name | Description | Default
+            """;
 
 	private final Project project;
 

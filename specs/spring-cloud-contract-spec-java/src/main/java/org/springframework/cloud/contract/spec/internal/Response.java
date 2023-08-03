@@ -103,8 +103,8 @@ public class Response extends Common implements RegexCreatingProperty<ServerDslP
 	 * @param bodyAsValue body to set
 	 */
 	public void body(Object bodyAsValue) {
-		if (bodyAsValue instanceof List) {
-			body((List) bodyAsValue);
+		if (bodyAsValue instanceof List list) {
+			body(list);
 		}
 		else {
 			this.body = new Body(bodyAsValue);
@@ -144,8 +144,8 @@ public class Response extends Common implements RegexCreatingProperty<ServerDslP
 	public DslProperty value(ServerDslProperty server) {
 		Object dynamicValue = server.getServerValue();
 		Object concreteValue = server.getClientValue();
-		if (dynamicValue instanceof RegexProperty && server.isSingleValue()) {
-			return ((RegexProperty) dynamicValue).concreteClientDynamicProducer();
+		if (dynamicValue instanceof RegexProperty regexProperty && server.isSingleValue()) {
+			return regexProperty.concreteClientDynamicProducer();
 		}
 		return new DslProperty(concreteValue, dynamicValue);
 	}

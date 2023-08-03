@@ -60,12 +60,10 @@ public class ResourcesFileSource implements FileSource {
 		FileSource[] sources = new FileSource[resources.length];
 		for (int i = 0; i < resources.length; i++) {
 			Resource resource = resources[i];
-			if (resource instanceof ClassPathResource) {
-				ClassPathResource classes = (ClassPathResource) resource;
+			if (resource instanceof ClassPathResource classes) {
 				sources[i] = new ClasspathFileSource(classes.getPath());
 			}
-			else if (resource instanceof FileSystemResource) {
-				FileSystemResource files = (FileSystemResource) resource;
+			else if (resource instanceof FileSystemResource files) {
 				sources[i] = new SingleRootFileSource(files.getFile());
 			}
 			else if (resource instanceof UrlResource) {
@@ -117,8 +115,7 @@ public class ResourcesFileSource implements FileSource {
 				log.debug("Trying FileSource with path " + resource.getPath());
 			}
 			try {
-				if (resource instanceof ClasspathFileSource) {
-					ClasspathFileSource classpathFileSource = (ClasspathFileSource) resource;
+				if (resource instanceof ClasspathFileSource classpathFileSource) {
 					if (classpathFileSource.exists() && compressedResource(classpathFileSource.getUri())) {
 						return classpathFileSource.getBinaryFileNamed(name);
 					}

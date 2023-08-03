@@ -111,8 +111,8 @@ public final class RegexPatterns {
 		if (contentType == null) {
 			return ".*";
 		}
-		if (contentType instanceof RegexProperty) {
-			return ((RegexProperty) contentType).pattern();
+		if (contentType instanceof RegexProperty property) {
+			return property.pattern();
 		}
 		return contentType.toString();
 	}

@@ -47,8 +47,8 @@ public class HandlebarsJsonPathHelper implements Helper<Object> {
 			Map<String, Object> oldContext = (Map<String, Object>) context;
 			String jsonPath = options.param(0);
 			Object model = oldContext.get(REQUEST_MODEL_NAME);
-			if (model instanceof TestSideRequestTemplateModel) {
-				return returnObjectForTest((TestSideRequestTemplateModel) model, jsonPath);
+			if (model instanceof TestSideRequestTemplateModel templateModel) {
+				return returnObjectForTest(templateModel, jsonPath);
 			}
 			else if (model instanceof RequestTemplateModel) {
 				return returnObjectForStub(model, jsonPath);
@@ -88,8 +88,8 @@ public class HandlebarsJsonPathHelper implements Helper<Object> {
 	}
 
 	private Object processTestResponseValue(Object value) {
-		if (value instanceof Long) {
-			return (long) value + "L";
+		if (value instanceof Long long1) {
+			return long1 + "L";
 		}
 		return value;
 	}

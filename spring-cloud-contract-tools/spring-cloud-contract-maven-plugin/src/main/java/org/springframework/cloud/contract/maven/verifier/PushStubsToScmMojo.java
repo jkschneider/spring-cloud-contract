@@ -110,8 +110,10 @@ public class PushStubsToScmMojo extends AbstractMojo {
 		}
 		if (!StringUtils.hasText(this.contractsRepositoryUrl)
 				|| !ScmStubDownloaderBuilder.isProtocolAccepted(this.contractsRepositoryUrl)) {
-			getLog().info("Skipping pushing stubs to scm since your "
-					+ "[contractsRepositoryUrl] property doesn't match any of the accepted protocols");
+			getLog().info("""
+                    Skipping pushing stubs to scm since your \
+                    [contractsRepositoryUrl] property doesn't match any of the accepted protocols\
+                    """);
 			return;
 		}
 		String projectName = this.project.getGroupId() + ":" + this.project.getArtifactId() + ":"

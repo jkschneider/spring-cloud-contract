@@ -75,8 +75,8 @@ class JsonPathValue {
 	}
 
 	private String getExpectedValueMessage(String expectedDescription) {
-		return String.format("Expected %s at JSON path \"%s\" but found: %s", expectedDescription, this.expression,
-				ObjectUtils.nullSafeToString(StringUtils.quoteIfString(getValue(false))));
+		return "Expected %s at JSON path \"%s\" but found: %s".formatted(expectedDescription, this.expression,
+                ObjectUtils.nullSafeToString(StringUtils.quoteIfString(getValue(false))));
 	}
 
 }

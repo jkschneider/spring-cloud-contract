@@ -344,8 +344,8 @@ class WireMockRequestStubStrategy extends BaseWireMockStubStrategy {
 	}
 
 	private Object getUrlIfGstring(Object clientSide) {
-		if (clientSide instanceof GString) {
-			if (Arrays.stream(((GString) clientSide).getValues()).anyMatch(it -> {
+		if (clientSide instanceof GString string) {
+			if (Arrays.stream(string.getValues()).anyMatch(it -> {
 				Object value = getStubSideValue(it);
 				return value instanceof Pattern || value instanceof RegexProperty;
 			})) {
@@ -370,18 +370,17 @@ class WireMockRequestStubStrategy extends BaseWireMockStubStrategy {
 	}
 
 	protected ContentPattern<?> convertToValuePattern(Object object) {
-		if (object instanceof ClientDslProperty) {
-			object = ((ClientDslProperty) object).getClientValue();
+		if (object instanceof ClientDslProperty property) {
+			object = property.getClientValue();
 		}
 
 		if (object instanceof Pattern || object instanceof RegexProperty) {
 			return WireMock.matching(new RegexProperty(object).pattern());
 		}
-		else if (object instanceof OptionalProperty) {
-			return WireMock.matching(((OptionalProperty) object).optionalPattern());
+		else if (object instanceof OptionalProperty property) {
+			return WireMock.matching(property.optionalPattern());
 		}
-		else if (object instanceof MatchingStrategy) {
-			MatchingStrategy value = (MatchingStrategy) object;
+		else if (object instanceof MatchingStrategy value) {
 			switch (value.getType()) {
 				case NOT_MATCHING:
 					return WireMock.notMatching(value.getClientValue().toString());
@@ -410,21 +409,21 @@ class WireMockRequestStubStrategy extends BaseWireMockStubStrategy {
 
 	protected Object clientBody(Object bodyValue, ContentType contentType) {
 		if (FORM == contentType) {
-			if (bodyValue instanceof Map) {
+			if (bodyValue instanceof Map map) {
 				// [a:3, b:4] == "a=3&b=4"
-				return ((Map<?, ?>) bodyValue).entrySet().stream()
+				return map.entrySet().stream()
 						.map(e -> StringEscapeUtils.unescapeEcmaScript(e.getKey().toString() + "=" + e.getValue()))
 						.collect(Collectors.joining("&"));
 			}
-			else if (bodyValue instanceof List) {
+			else if (bodyValue instanceof List list) {
 				// ["a=3", "b=4"] == "a=3&b=4"
-				return ((List<?>) bodyValue).stream().map(it -> StringEscapeUtils.unescapeEcmaScript(it.toString()))
+				return list.stream().map(it -> StringEscapeUtils.unescapeEcmaScript(it.toString()))
 						.collect(Collectors.joining("&"));
 			}
 		}
-		else if (bodyValue instanceof FromFileProperty) {
-			return ((FromFileProperty) bodyValue).isByte() ? ((FromFileProperty) bodyValue).asBytes()
-					: ((FromFileProperty) bodyValue).asString();
+		else if (bodyValue instanceof FromFileProperty property) {
+			return property.isByte() ? property.asBytes()
+					: property.asString();
 		}
 		else if (JSON == contentType) {
 			return parseBody(bodyValue, contentType);
@@ -440,14 +439,14 @@ class WireMockRequestStubStrategy extends BaseWireMockStubStrategy {
 	}
 
 	private MatchingStrategy getMatchingStrategy(Object bodyValue) {
-		if (bodyValue instanceof GString) {
-			return this.getMatchingStrategy((GString) bodyValue);
+		if (bodyValue instanceof GString string) {
+			return this.getMatchingStrategy(string);
 		}
-		else if (bodyValue instanceof MatchingStrategy) {
-			return this.getMatchingStrategy((MatchingStrategy) bodyValue);
+		else if (bodyValue instanceof MatchingStrategy strategy) {
+			return this.getMatchingStrategy(strategy);
 		}
-		else if (bodyValue instanceof FromFileProperty) {
-			return this.getMatchingStrategy((FromFileProperty) bodyValue);
+		else if (bodyValue instanceof FromFileProperty property) {
+			return this.getMatchingStrategy(property);
 		}
 		else {
 			return tryToFindMachingStrategy(bodyValue);
@@ -467,7 +466,7 @@ class WireMockRequestStubStrategy extends BaseWireMockStubStrategy {
 			return new MatchingStrategy("", MatchingStrategy.Type.EQUAL_TO);
 		}
 		Object extractedValue = ContentUtils.extractValue(gString,
-				it -> it instanceof DslProperty ? ((DslProperty<?>) it).getClientValue() : getStringFromGString(it));
+				it -> it instanceof DslProperty dp ? dp.getClientValue() : getStringFromGString(it));
 
 		Object value = getStringFromGString(extractedValue);
 		return getMatchingStrategy(value);
@@ -491,14 +490,14 @@ class WireMockRequestStubStrategy extends BaseWireMockStubStrategy {
 			type = getEqualsTypeFromContentType(contentType);
 		}
 		MatchingStrategy newMatchingStrategy;
-		if (value instanceof Map) {
-			newMatchingStrategy = new MatchingStrategy(parseBody((Map<?, ?>) value, contentType), type);
+		if (value instanceof Map map) {
+			newMatchingStrategy = new MatchingStrategy(parseBody(map, contentType), type);
 		}
-		else if (value instanceof List) {
-			newMatchingStrategy = new MatchingStrategy(parseBody((List<?>) value, contentType), type);
+		else if (value instanceof List list) {
+			newMatchingStrategy = new MatchingStrategy(parseBody(list, contentType), type);
 		}
-		else if (value instanceof GString) {
-			newMatchingStrategy = new MatchingStrategy(parseBody((GString) value, contentType), type);
+		else if (value instanceof GString string) {
+			newMatchingStrategy = new MatchingStrategy(parseBody(string, contentType), type);
 		}
 		else {
 			newMatchingStrategy = new MatchingStrategy(parseBody(value, contentType), type);
@@ -523,28 +522,28 @@ class WireMockRequestStubStrategy extends BaseWireMockStubStrategy {
 	}
 
 	private boolean containsPattern(Object o) {
-		if (o instanceof GString) {
-			return containsPattern(((GString) o).getValues());
+		if (o instanceof GString string) {
+			return containsPattern(string.getValues());
 		}
-		else if (o instanceof Map) {
-			return containsPattern(((Map<?, ?>) o).entrySet());
+		else if (o instanceof Map map) {
+			return containsPattern(map.entrySet());
 		}
-		else if (o instanceof Collection) {
-			List<Boolean> result = (List<Boolean>) ((Collection) o).stream().map(this::containsPattern)
+		else if (o instanceof Collection collection) {
+			List<Boolean> result = (List<Boolean>) collection.stream().map(this::containsPattern)
 					.collect(Collectors.toList());
 			return result.stream().reduce(false, (a, b) -> a || b);
 		}
-		else if (o instanceof Object[]) {
-			return containsPattern(Arrays.asList((Object[]) o));
+		else if (o instanceof Object[] objects) {
+			return containsPattern(Arrays.asList(objects));
 		}
-		else if (o instanceof Map.Entry<?, ?>) {
-			return containsPattern(((Map.Entry<?, ?>) o).getValue());
+		else if (o instanceof Map.Entry<?, ?> entry) {
+			return containsPattern(entry.getValue());
 		}
 		else if (o instanceof RegexProperty) {
 			return true;
 		}
-		else if (o instanceof DslProperty<?>) {
-			return containsPattern(((DslProperty<?>) o).getClientValue());
+		else if (o instanceof DslProperty<?> property) {
+			return containsPattern(property.getClientValue());
 		}
 		else {
 			return o instanceof Pattern;

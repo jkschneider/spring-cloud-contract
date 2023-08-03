@@ -142,14 +142,14 @@ class ContractVerifierJmsHelper extends ContractVerifierMessaging<Message> {
 		if (message == null) {
 			return null;
 		}
-		else if (message instanceof TextMessage) {
-			return ((TextMessage) message).getText();
+		else if (message instanceof TextMessage textMessage) {
+			return textMessage.getText();
 		}
-		else if (message instanceof StreamMessage) {
-			return ((StreamMessage) message).readObject();
+		else if (message instanceof StreamMessage streamMessage) {
+			return streamMessage.readObject();
 		}
-		else if (message instanceof ObjectMessage) {
-			return ((ObjectMessage) message).getObject();
+		else if (message instanceof ObjectMessage objectMessage) {
+			return objectMessage.getObject();
 		}
 		return message.getBody(Object.class);
 	}

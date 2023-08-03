@@ -29,8 +29,8 @@ class ContractVerifierStreamMessageBuilder {
 
 	public <T> Message<?> create(T payload, Map<String, Object> headers) {
 		Object payloadToSend = payload;
-		if (payload instanceof String) {
-			payloadToSend = ((String) payload).getBytes();
+		if (payload instanceof String string) {
+			payloadToSend = string.getBytes();
 		}
 		return MessageBuilder.createMessage(payloadToSend, new MessageHeaders(headers));
 	}

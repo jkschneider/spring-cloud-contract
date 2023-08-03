@@ -51,11 +51,11 @@ public class OptionalProperty implements Serializable, CanBeDynamic {
 		if (value == null) {
 			return "";
 		}
-		else if (value instanceof ClientDslProperty) {
-			return valueToCheck(((ClientDslProperty) value).getClientValue());
+		else if (value instanceof ClientDslProperty property) {
+			return valueToCheck(property.getClientValue());
 		}
-		else if (value instanceof ServerDslProperty) {
-			return valueToCheck(((ServerDslProperty) value).getServerValue());
+		else if (value instanceof ServerDslProperty property) {
+			return valueToCheck(property.getServerValue());
 		}
 		else if (value instanceof RegexProperty || value instanceof Pattern) {
 			return new RegexProperty(value).pattern();

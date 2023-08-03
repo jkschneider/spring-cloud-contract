@@ -60,8 +60,8 @@ class JaxRsRequestHeadersWhen implements When {
 
 	private String headerValue(Header header) {
 		Object headerServerValue = header.getServerValue();
-		if (headerServerValue instanceof ExecutionProperty) {
-			return ((ExecutionProperty) headerServerValue).getExecutionCommand();
+		if (headerServerValue instanceof ExecutionProperty property) {
+			return property.getExecutionCommand();
 		}
 		return this.bodyParser.quotedLongText(MapConverter.getTestSideValuesForNonBody(header.getServerValue()));
 	}

@@ -27,40 +27,42 @@ import org.springframework.cloud.contract.verifier.converter.YamlContractConvert
 class GraphQLRequestMatcherTests {
 
 	// @formatter:off
-	private static final String YAML_WITH_INVALID_VARIABLES = "---\n"
-			+ "request:\n"
-			+ "  method: \"POST\"\n"
-			+ "  url: \"/graphql\"\n"
-			+ "  headers:\n"
-			+ "    Content-Type: \"application/json\"\n"
-			+ "  body:\n"
-			+ "    query: \"query queryName($personName: String!) {\\n  personToCheck(name: $personName)\\\n"
-			+ "      \\ {\\n    name\\n    age\\n  }\\n}\\n\\n\\n\\n\"\n"
-			+ "    variables: This should actually be a map not a string\n"
-			+ "    operationName: \"queryName\"\n"
-			+ "  matchers:\n"
-			+ "    headers:\n"
-			+ "      - key: \"Content-Type\"\n"
-			+ "        regex: \"application/json.*\"\n"
-			+ "        regexType: \"as_string\"\n"
-			+ "response:\n"
-			+ "  status: 200\n"
-			+ "  headers:\n"
-			+ "    Content-Type: \"application/json\"\n"
-			+ "  body:\n"
-			+ "    data:\n"
-			+ "      personToCheck:\n"
-			+ "        name: \"Old Enough\"\n"
-			+ "        age: \"40\"\n"
-			+ "  matchers:\n"
-			+ "    headers:\n"
-			+ "      - key: \"Content-Type\"\n"
-			+ "        regex: \"application/json.*\"\n"
-			+ "        regexType: \"as_string\"\n"
-			+ "name: \"shouldRetrieveOldEnoughPerson\"\n"
-			+ "metadata:\n"
-			+ "  verifier:\n"
-			+ "    tool: \"graphql\"\n";
+	private static final String YAML_WITH_INVALID_VARIABLES = """
+            ---
+            request:
+              method: "POST"
+              url: "/graphql"
+              headers:
+                Content-Type: "application/json"
+              body:
+                query: "query queryName($personName: String!) {\\n  personToCheck(name: $personName)\\
+                  \\ {\\n    name\\n    age\\n  }\\n}\\n\\n\\n\\n"
+                variables: This should actually be a map not a string
+                operationName: "queryName"
+              matchers:
+                headers:
+                  - key: "Content-Type"
+                    regex: "application/json.*"
+                    regexType: "as_string"
+            response:
+              status: 200
+              headers:
+                Content-Type: "application/json"
+              body:
+                data:
+                  personToCheck:
+                    name: "Old Enough"
+                    age: "40"
+              matchers:
+                headers:
+                  - key: "Content-Type"
+                    regex: "application/json.*"
+                    regexType: "as_string"
+            name: "shouldRetrieveOldEnoughPerson"
+            metadata:
+              verifier:
+                tool: "graphql"
+            """;
 	// @formatter:on
 
 	@Test
@@ -84,41 +86,43 @@ class GraphQLRequestMatcherTests {
 	}
 
 	// @formatter:off
-	private static final String PROPER_YAML = "---\n"
-			+ "request:\n"
-			+ "  method: \"POST\"\n"
-			+ "  url: \"/graphql\"\n"
-			+ "  headers:\n"
-			+ "    Content-Type: \"application/json\"\n"
-			+ "  body:\n"
-			+ "    query: \"query queryName($personName: String!) { personToCheck(name: $personName)"
-			+ "      {         name    age  } }\"\n"
-			+ "    variables:\n"
-			+ "      personName: \"Old Enough\"\n"
-			+ "    operationName: \"queryName\"\n"
-			+ "  matchers:\n"
-			+ "    headers:\n"
-			+ "      - key: \"Content-Type\"\n"
-			+ "        regex: \"application/json.*\"\n"
-			+ "        regexType: \"as_string\"\n"
-			+ "response:\n"
-			+ "  status: 200\n"
-			+ "  headers:\n"
-			+ "    Content-Type: \"application/json\"\n"
-			+ "  body:\n"
-			+ "    data:\n"
-			+ "      personToCheck:\n"
-			+ "        name: \"Old Enough\"\n"
-			+ "        age: \"40\"\n"
-			+ "  matchers:\n"
-			+ "    headers:\n"
-			+ "      - key: \"Content-Type\"\n"
-			+ "        regex: \"application/json.*\"\n"
-			+ "        regexType: \"as_string\"\n"
-			+ "name: \"shouldRetrieveOldEnoughPerson\"\n"
-			+ "metadata:\n"
-			+ "  verifier:\n"
-			+ "    tool: \"graphql\"\n";
+	private static final String PROPER_YAML = """
+            ---
+            request:
+              method: "POST"
+              url: "/graphql"
+              headers:
+                Content-Type: "application/json"
+              body:
+                query: "query queryName($personName: String!) { personToCheck(name: $personName)\
+                  {         name    age  } }"
+                variables:
+                  personName: "Old Enough"
+                operationName: "queryName"
+              matchers:
+                headers:
+                  - key: "Content-Type"
+                    regex: "application/json.*"
+                    regexType: "as_string"
+            response:
+              status: 200
+              headers:
+                Content-Type: "application/json"
+              body:
+                data:
+                  personToCheck:
+                    name: "Old Enough"
+                    age: "40"
+              matchers:
+                headers:
+                  - key: "Content-Type"
+                    regex: "application/json.*"
+                    regexType: "as_string"
+            name: "shouldRetrieveOldEnoughPerson"
+            metadata:
+              verifier:
+                tool: "graphql"
+            """;
 	// @formatter:on
 
 	@Test
@@ -137,11 +141,13 @@ class GraphQLRequestMatcherTests {
 	}
 
 	// @formatter:off
-	private static final String NOT_MATCHING_QUERY_BODY = "{\n"
-			+ "\"query\":\"this should not match\",\n"
-			+ "\"variables\":{\"personName\":\"Old Enough\"},\n"
-			+ "\"operationName\":\"queryName\"\n"
-			+ "}";
+	private static final String NOT_MATCHING_QUERY_BODY = """
+            {
+            "query":"this should not match",
+            "variables":{"personName":"Old Enough"},
+            "operationName":"queryName"
+            }\
+            """;
 	// @formatter:on
 
 	@Test
@@ -155,11 +161,13 @@ class GraphQLRequestMatcherTests {
 	}
 
 	// @formatter:off
-	private static final String NOT_MATCHING_VARIABLES_BODY = "{\n"
-			+ "\"query\":\"query queryName($personName: String!) {\\n  personToCheck(name: $personName) {\\n    name\\n    age\\n  }\\n}\\n\\n\\n\\n\",\n"
-			+ "\"variables\":{\"Not matching key\":\"Not matching value\"},\n"
-			+ "\"operationName\":\"queryName\"\n"
-			+ "}";
+	private static final String NOT_MATCHING_VARIABLES_BODY = """
+            {
+            "query":"query queryName($personName: String!) {\\n  personToCheck(name: $personName) {\\n    name\\n    age\\n  }\\n}\\n\\n\\n\\n",
+            "variables":{"Not matching key":"Not matching value"},
+            "operationName":"queryName"
+            }\
+            """;
 	// @formatter:on
 
 	@Test
@@ -173,11 +181,13 @@ class GraphQLRequestMatcherTests {
 	}
 
 	// @formatter:off
-	private static final String NOT_MATCHING_OPERATION_NAME_BODY = "{\n"
-			+ "\"query\":\"query queryName($personName: String!) {\\n  personToCheck(name: $personName) {\\n    name\\n    age\\n  }\\n}\\n\\n\\n\\n\",\n"
-			+ "\"variables\":{\"personName\":\"Old Enough\"},\n"
-			+ "\"operationName\":\"not matching operation name\"\n"
-			+ "}";
+	private static final String NOT_MATCHING_OPERATION_NAME_BODY = """
+            {
+            "query":"query queryName($personName: String!) {\\n  personToCheck(name: $personName) {\\n    name\\n    age\\n  }\\n}\\n\\n\\n\\n",
+            "variables":{"personName":"Old Enough"},
+            "operationName":"not matching operation name"
+            }\
+            """;
 	// @formatter:on
 
 	@Test
@@ -191,11 +201,13 @@ class GraphQLRequestMatcherTests {
 	}
 
 	// @formatter:off
-	private static final String REQUEST_BODY = "{\n"
-			+ "\"query\":\"query queryName($personName: String!) {\\n  personToCheck(name: $personName) {\\n    name\\n    age\\n  }\\n}\\n\\n\\n\\n\",\n"
-			+ "\"variables\":{\"personName\":\"Old Enough\"},\n"
-			+ "\"operationName\":\"queryName\"\n"
-			+ "}";
+	private static final String REQUEST_BODY = """
+            {
+            "query":"query queryName($personName: String!) {\\n  personToCheck(name: $personName) {\\n    name\\n    age\\n  }\\n}\\n\\n\\n\\n",
+            "variables":{"personName":"Old Enough"},
+            "operationName":"queryName"
+            }\
+            """;
 	// @formatter:on
 
 	private Request request() {

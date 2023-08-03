@@ -38,8 +38,8 @@ public class Body {
 	 * @return body as byte array
 	 */
 	public byte[] asByteArray() {
-		if (body instanceof byte[]) {
-			return (byte[]) this.body;
+		if (body instanceof byte[] bytes) {
+			return bytes;
 		}
 		return body.toString().getBytes();
 	}
@@ -56,11 +56,11 @@ public class Body {
 	 * @return body as string
 	 */
 	public String asString(Charset charset) {
-		if (body instanceof String) {
-			return (String) body;
+		if (body instanceof String string) {
+			return string;
 		}
-		else if (body instanceof byte[]) {
-			return new String((byte[]) body, charset);
+		else if (body instanceof byte[] bytes) {
+			return new String(bytes, charset);
 		}
 		return body.toString();
 	}

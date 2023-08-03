@@ -44,8 +44,8 @@ public class Cookie extends DslProperty {
 	}
 
 	public static Cookie build(String key, Object value) {
-		if (value instanceof MatchingStrategy) {
-			return new Cookie(key, (MatchingStrategy) value);
+		if (value instanceof MatchingStrategy strategy) {
+			return new Cookie(key, strategy);
 		}
 		return new Cookie(key, value);
 	}

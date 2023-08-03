@@ -58,12 +58,12 @@ class CustomModeHeadersThen implements Then, CustomModeAcceptor {
 	}
 
 	private String processHeaderElement(String property, Object value) {
-		if (value instanceof NotToEscapePattern) {
+		if (value instanceof NotToEscapePattern pattern) {
 			return this.comparisonBuilder.assertThat("response.header(\"" + property + "\")")
-					+ matchesManuallyEscapedPattern((NotToEscapePattern) value);
+					+ matchesManuallyEscapedPattern(pattern);
 		}
-		else if (value instanceof ExecutionProperty) {
-			return ((ExecutionProperty) value).insertValue("response.header(\"" + property + "\")");
+		else if (value instanceof ExecutionProperty executionProperty) {
+			return executionProperty.insertValue("response.header(\"" + property + "\")");
 
 		}
 		return this.comparisonBuilder.assertThat("response.header(\"" + property + "\")", value);

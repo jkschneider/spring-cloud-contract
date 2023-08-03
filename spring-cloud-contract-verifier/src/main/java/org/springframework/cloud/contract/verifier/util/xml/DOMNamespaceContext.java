@@ -61,8 +61,7 @@ public class DOMNamespaceContext implements NamespaceContext {
 				}
 			}
 		}
-		if (element instanceof Element) {
-			Element el = (Element) element;
+		if (element instanceof Element el) {
 			NamedNodeMap map = el.getAttributes();
 			for (int x = 0; x < map.getLength(); x++) {
 				Attr attr = (Attr) map.item(x);

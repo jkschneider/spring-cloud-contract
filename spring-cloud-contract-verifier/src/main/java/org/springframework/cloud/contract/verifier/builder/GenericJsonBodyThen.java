@@ -107,17 +107,17 @@ class GenericJsonBodyThen implements Then {
 		String propDiff = subtract(property, oldProp);
 		String prop = wrappedWithBracketsForDottedProp(propDiff);
 		String mergedProp = StringUtils.hasText(property) ? oldProp + "." + prop : "";
-		if (value instanceof ExecutionProperty) {
-			processBodyElement(mergedProp, (ExecutionProperty) value);
+		if (value instanceof ExecutionProperty executionProperty) {
+			processBodyElement(mergedProp, executionProperty);
 		}
-		else if (value instanceof Map.Entry) {
-			processBodyElement(mergedProp, (Map.Entry) value);
+		else if (value instanceof Map.Entry entry) {
+			processBodyElement(mergedProp, entry);
 		}
-		else if (value instanceof Map) {
-			processBodyElement(mergedProp, (Map) value);
+		else if (value instanceof Map map) {
+			processBodyElement(mergedProp, map);
 		}
-		else if (value instanceof List) {
-			processBodyElement(mergedProp, (List) value);
+		else if (value instanceof List list) {
+			processBodyElement(mergedProp, list);
 		}
 	}
 
@@ -197,8 +197,8 @@ class GenericJsonBodyThen implements Then {
 	@Override
 	public boolean accept(SingleContractMetadata metadata) {
 		Object responseBody = this.bodyParser.responseBody(metadata).getServerValue();
-		if (responseBody instanceof FromFileProperty) {
-			return !((FromFileProperty) responseBody).isByte();
+		if (responseBody instanceof FromFileProperty property) {
+			return !property.isByte();
 		}
 		ContentType outputTestContentType = metadata.getOutputTestContentType();
 		return JSON == outputTestContentType || mostLikelyJson(outputTestContentType, metadata);

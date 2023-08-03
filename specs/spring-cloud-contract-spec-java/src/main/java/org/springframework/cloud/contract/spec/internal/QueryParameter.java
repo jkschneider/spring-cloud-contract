@@ -48,11 +48,11 @@ public class QueryParameter extends DslProperty {
 	}
 
 	public static QueryParameter build(String key, Object value) {
-		if (value instanceof MatchingStrategy) {
-			return new QueryParameter(key, (MatchingStrategy) value);
+		if (value instanceof MatchingStrategy strategy) {
+			return new QueryParameter(key, strategy);
 		}
-		else if (value instanceof RegexProperty) {
-			return new QueryParameter(key, ((RegexProperty) value).dynamicClientEscapedConcreteProducer());
+		else if (value instanceof RegexProperty property) {
+			return new QueryParameter(key, property.dynamicClientEscapedConcreteProducer());
 		}
 		return new QueryParameter(key, value);
 	}

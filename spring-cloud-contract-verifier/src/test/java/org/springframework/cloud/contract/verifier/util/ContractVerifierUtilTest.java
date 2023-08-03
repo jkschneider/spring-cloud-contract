@@ -39,10 +39,20 @@ public class ContractVerifierUtilTest {
 
 	private final String unnamedXml = "<customer>\n" + "<email>customer@test.com</email>\n" + "</customer>";
 
-	private final String namedComplexXml = "<ns1:customer xmlns:ns1=\"http://demo.com/customer\" xmlns:addr=\"http://demo.com/address\">\n"
-			+ "<email>customer@test.com</email>\n" + "<contact-info xmlns=\"http://demo.com/contact-info\">\n"
-			+ "<name>Krombopulous</name>" + "<address>" + "<addr:gps>" + "<lat>51</lat>" + "<addr:lon>50</addr:lon>"
-			+ "</addr:gps>" + "</address>" + "</contact-info>\n" + "</ns1:customer>";
+	private final String namedComplexXml = """
+            <ns1:customer xmlns:ns1="http://demo.com/customer" xmlns:addr="http://demo.com/address">
+            <email>customer@test.com</email>
+            <contact-info xmlns="http://demo.com/contact-info">
+            <name>Krombopulous</name>\
+            <address>\
+            <addr:gps>\
+            <lat>51</lat>\
+            <addr:lon>50</addr:lon>\
+            </addr:gps>\
+            </address>\
+            </contact-info>
+            </ns1:customer>\
+            """;
 
 	@Test
 	public void shouldGetValueFromXPath() {

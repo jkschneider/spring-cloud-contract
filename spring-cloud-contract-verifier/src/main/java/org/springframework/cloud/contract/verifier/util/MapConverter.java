@@ -94,7 +94,7 @@ public class MapConverter {
 	 * {@link org.springframework.cloud.contract.spec.internal.DslProperty}
 	 */
 	public static Object transformToClientValues(Object value) {
-		return transformValues(value, (v) -> v instanceof DslProperty ? ((DslProperty<?>) v).getClientValue() : v);
+		return transformValues(value, (v) -> v instanceof DslProperty dp ? dp.getClientValue() : v);
 	}
 
 	public static Object transformValues(Object value, Function<Object, ?> function) {
@@ -108,11 +108,11 @@ public class MapConverter {
 	 */
 	public static Object transformValues(Object value, Function<Object, ?> function,
 			Function<String, Object> parsingFunction) {
-		if (value instanceof String) {
+		if (value instanceof String string) {
 			try {
-				Object parsed = parsingFunction.apply((String) value);
-				if (parsed instanceof Map) {
-					return convert((Map) parsed, function, parsingFunction);
+				Object parsed = parsingFunction.apply(string);
+				if (parsed instanceof Map map) {
+					return convert(map, function, parsingFunction);
 				}
 				else if (parsed instanceof List) {
 					return transformValues(parsed, function, parsingFunction);
@@ -122,11 +122,11 @@ public class MapConverter {
 			}
 			return extractValue(value, function);
 		}
-		else if (value instanceof Map) {
-			return convert((Map) value, function, parsingFunction);
+		else if (value instanceof Map map) {
+			return convert(map, function, parsingFunction);
 		}
-		else if (value instanceof Collection) {
-			return ((Collection) value).stream().map((v) -> transformValues(v, function, parsingFunction))
+		else if (value instanceof Collection collection) {
+			return collection.stream().map((v) -> transformValues(v, function, parsingFunction))
 					.collect(Collectors.toList());
 		}
 		return transformValue(function, value, parsingFunction);
@@ -176,30 +176,30 @@ public class MapConverter {
 	public static Object getClientOrServerSideValues(Object json, boolean clientSide,
 			Function<String, Object> parsingFunction) {
 		return transformValues(json, val -> {
-			if (val instanceof DslProperty) {
-				DslProperty<?> dslProperty = ((DslProperty<?>) val);
+			if (val instanceof DslProperty property) {
+				DslProperty<?> dslProperty =property;
 				return clientSide
 						? getClientOrServerSideValues(dslProperty.getClientValue(), clientSide, parsingFunction)
 						: getClientOrServerSideValues(dslProperty.getServerValue(), clientSide, parsingFunction);
 			}
-			else if (val instanceof GString) {
+			else if (val instanceof GString string) {
 				ContentType type = new MapConverter().templateProcessor.containsJsonPathTemplateEntry(
-						ContentUtils.extractValueForGString((GString) val, ContentUtils.GET_TEST_SIDE).toString())
+						ContentUtils.extractValueForGString(string, ContentUtils.GET_TEST_SIDE).toString())
 								? ContentType.TEXT : null;
-				return ContentUtils.extractValue((GString) val, type, (v) -> {
-					if (v instanceof DslProperty) {
+				return ContentUtils.extractValue(string, type, (v) -> {
+					if (v instanceof DslProperty property) {
 						return clientSide
-								? getClientOrServerSideValues(((DslProperty<?>) v).getClientValue(), clientSide,
+								? getClientOrServerSideValues(property.getClientValue(), clientSide,
 										parsingFunction)
-								: getClientOrServerSideValues(((DslProperty<?>) v).getServerValue(), clientSide,
+								: getClientOrServerSideValues(property.getServerValue(), clientSide,
 										parsingFunction);
 					}
 					return v;
 				});
 			}
-			else if (val instanceof FromFileProperty) {
-				return ((FromFileProperty) val).isByte() ? ((FromFileProperty) val).asBytes()
-						: ((FromFileProperty) val).asString();
+			else if (val instanceof FromFileProperty property) {
+				return property.isByte() ? property.asBytes()
+						: property.asString();
 			}
 			return val;
 		}, parsingFunction);

@@ -94,12 +94,12 @@ class StubRunnerDiscoveryClientWrapper implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		if (bean instanceof DiscoveryClient && !(bean instanceof StubRunnerDiscoveryClient)) {
+		if (bean instanceof DiscoveryClient client && !(bean instanceof StubRunnerDiscoveryClient)) {
 			if (!isStubbedDiscoveryEnabled()) {
 				return bean;
 			}
 			if (isCloudDelegateEnabled()) {
-				return new StubRunnerDiscoveryClient((DiscoveryClient) bean, stubFinder(), stubMapperProperties());
+				return new StubRunnerDiscoveryClient(client, stubFinder(), stubMapperProperties());
 			}
 			return new StubRunnerDiscoveryClient(stubFinder(), stubMapperProperties());
 		}

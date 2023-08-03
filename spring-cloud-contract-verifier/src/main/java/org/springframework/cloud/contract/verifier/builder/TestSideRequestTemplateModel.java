@@ -189,8 +189,8 @@ public class TestSideRequestTemplateModel {
 	}
 
 	private static Object extractServerValueFromBody(Object bodyValue) {
-		if (bodyValue instanceof GString) {
-			bodyValue = ContentUtils.extractValue((GString) bodyValue, ContentUtils.GET_TEST_SIDE_FUNCTION);
+		if (bodyValue instanceof GString string) {
+			bodyValue = ContentUtils.extractValue(string, ContentUtils.GET_TEST_SIDE_FUNCTION);
 		}
 		else {
 			bodyValue = MapConverter.transformValues(bodyValue, ContentUtils.GET_TEST_SIDE_FUNCTION);

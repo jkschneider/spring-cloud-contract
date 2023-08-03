@@ -60,8 +60,7 @@ class MockMvcBodyGiven implements Given {
 		if (body instanceof ExecutionProperty) {
 			value = body.toString();
 		}
-		else if (body instanceof FromFileProperty) {
-			FromFileProperty fileProperty = (FromFileProperty) body;
+		else if (body instanceof FromFileProperty fileProperty) {
 			value = fileProperty.isByte()
 					? this.bodyReader.readBytesFromFileString(metadata, fileProperty, CommunicationType.REQUEST)
 					: this.bodyReader.readStringFromFileString(metadata, fileProperty, CommunicationType.REQUEST);

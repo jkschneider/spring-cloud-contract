@@ -85,18 +85,43 @@ class SpringCloudContractRequestMatcherTests {
 		BDDAssertions.then(result.isExactMatch()).isFalse();
 	}
 
-	private static final String PROPER_YAML = "---\n" + "request:\n" + "  method: \"POST\"\n" + "  url: \"/graphql\"\n"
-			+ "  headers:\n" + "    Content-Type: \"application/json\"\n" + "  body:\n"
-			+ "    query: \"query queryName($personName: String!) { personToCheck(name: $personName)"
-			+ "      {         name    age  } }\"\n" + "    variables:\n" + "      personName: \"Old Enough\"\n"
-			+ "    operationName: \"queryName\"\n" + "  matchers:\n" + "    headers:\n"
-			+ "      - key: \"Content-Type\"\n" + "        regex: \"application/json.*\"\n"
-			+ "        regexType: \"as_string\"\n" + "response:\n" + "  status: 200\n" + "  headers:\n"
-			+ "    Content-Type: \"application/json\"\n" + "  body:\n" + "    data:\n" + "      personToCheck:\n"
-			+ "        name: \"Old Enough\"\n" + "        age: \"40\"\n" + "  matchers:\n" + "    headers:\n"
-			+ "      - key: \"Content-Type\"\n" + "        regex: \"application/json.*\"\n"
-			+ "        regexType: \"as_string\"\n" + "name: \"shouldRetrieveOldEnoughPerson\"\n" + "metadata:\n"
-			+ "  verifier:\n" + "    tool: \"graphql\"\n";
+	private static final String PROPER_YAML = """
+            ---
+            request:
+              method: "POST"
+              url: "/graphql"
+              headers:
+                Content-Type: "application/json"
+              body:
+                query: "query queryName($personName: String!) { personToCheck(name: $personName)\
+                  {         name    age  } }"
+                variables:
+                  personName: "Old Enough"
+                operationName: "queryName"
+              matchers:
+                headers:
+                  - key: "Content-Type"
+                    regex: "application/json.*"
+                    regexType: "as_string"
+            response:
+              status: 200
+              headers:
+                Content-Type: "application/json"
+              body:
+                data:
+                  personToCheck:
+                    name: "Old Enough"
+                    age: "40"
+              matchers:
+                headers:
+                  - key: "Content-Type"
+                    regex: "application/json.*"
+                    regexType: "as_string"
+            name: "shouldRetrieveOldEnoughPerson"
+            metadata:
+              verifier:
+                tool: "graphql"
+            """;
 
 	@Test
 	void should_not_match_when_exception_occurs_while_trying_to_parse_contract() {

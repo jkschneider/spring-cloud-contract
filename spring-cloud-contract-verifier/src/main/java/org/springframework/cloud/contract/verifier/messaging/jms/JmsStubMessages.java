@@ -65,16 +65,16 @@ class JmsStubMessages implements org.springframework.cloud.contract.verifier.mes
 	}
 
 	private Message createMessage(Session session, Object payload) throws JMSException {
-		if (payload instanceof String) {
-			return session.createTextMessage((String) payload);
+		if (payload instanceof String string) {
+			return session.createTextMessage(string);
 		}
-		else if (payload instanceof byte[]) {
+		else if (payload instanceof byte[] bytes) {
 			BytesMessage bytesMessage = session.createBytesMessage();
-			bytesMessage.writeBytes((byte[]) payload);
+			bytesMessage.writeBytes(bytes);
 			return bytesMessage;
 		}
-		else if (payload instanceof Serializable) {
-			return session.createObjectMessage((Serializable) payload);
+		else if (payload instanceof Serializable serializable) {
+			return session.createObjectMessage(serializable);
 		}
 		return session.createMessage();
 	}
@@ -84,11 +84,11 @@ class JmsStubMessages implements org.springframework.cloud.contract.verifier.mes
 			String key = entry.getKey();
 			Object value = entry.getValue();
 			try {
-				if (value instanceof String) {
-					message.setStringProperty(key, (String) value);
+				if (value instanceof String string) {
+					message.setStringProperty(key, string);
 				}
-				else if (value instanceof Boolean) {
-					message.setBooleanProperty(key, (Boolean) value);
+				else if (value instanceof Boolean boolean1) {
+					message.setBooleanProperty(key, boolean1);
 				}
 				else {
 					message.setObjectProperty(key, value);

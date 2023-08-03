@@ -318,10 +318,10 @@ class ProjectVersion implements Comparable<ProjectVersion>, Serializable {
 		private String gav() {
 			// Finchley
 			if (!StringUtils.hasText(minor)) {
-				return String.format("%s", major);
+				return "%s".formatted(major);
 			}
 			// 1.0.1
-			return String.format("%s.%s.%s", major, minor, patch);
+			return "%s.%s.%s".formatted(major, minor, patch);
 		}
 
 		private boolean isNumeric(String string) {

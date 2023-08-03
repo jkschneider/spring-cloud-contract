@@ -33,30 +33,46 @@ import static org.assertj.core.api.BDDAssertions.then;
 class DefaultWireMockStubPostProcessorTests {
 
 	// @formatter:off
-	private static final String STUB_MAPPING = "{\n" + "    \"request\": {\n"
-			+ "        \"method\": \"GET\",\n" + "        \"url\": \"/ping\"\n"
-			+ "    },\n" + "    \"response\": {\n" + "        \"status\": 200,\n"
-			+ "        \"body\": \"pong\",\n" + "        \"headers\": {\n"
-			+ "            \"Content-Type\": \"text/plain\"\n" + "        }\n" + "    }\n"
-			+ "}";
+	private static final String STUB_MAPPING = """
+            {
+                "request": {
+                    "method": "GET",
+                    "url": "/ping"
+                },
+                "response": {
+                    "status": 200,
+                    "body": "pong",
+                    "headers": {
+                        "Content-Type": "text/plain"
+                    }
+                }
+            }\
+            """;
 
-	private static final String POST_SERVE_ACTION = "{ \"postServeActions\": {\n"
-			+ "      \"webhook\": {\n" + "        \"headers\": {\n"
-			+ "          \"Content-Type\": \"application/json\"\n" + "        },\n"
-			+ "        \"method\": \"POST\",\n"
-			+ "        \"body\": \"{ \\\"result\\\": \\\"SUCCESS\\\" }\",\n"
-			+ "        \"url\": \"http://localhost:56299/callback\"\n" + "      }\n"
-			+ "    } }";
+	private static final String POST_SERVE_ACTION = """
+            { "postServeActions": {
+                  "webhook": {
+                    "headers": {
+                      "Content-Type": "application/json"
+                    },
+                    "method": "POST",
+                    "body": "{ \\"result\\": \\"SUCCESS\\" }",
+                    "url": "http://localhost:56299/callback"
+                  }
+                } }\
+            """;
 
-	private static final String RESPONSE_DELAY = "{\n"
-			+ "    \"response\": {\n"
-			+ "            \"delayDistribution\": {\n"
-			+ "                    \"type\": \"lognormal\",\n"
-			+ "                    \"median\": 80,\n"
-			+ "                    \"sigma\": 0.4\n"
-			+ "            }\n"
-			+ "    }\n"
-			+ "}\n";
+	private static final String RESPONSE_DELAY = """
+            {
+                "response": {
+                        "delayDistribution": {
+                                "type": "lognormal",
+                                "median": 80,
+                                "sigma": 0.4
+                        }
+                }
+            }
+            """;
 	// @formatter:on
 
 	@Test

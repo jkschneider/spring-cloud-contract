@@ -194,7 +194,7 @@ class BasicMappingBuilder implements ScenarioMappingBuilder {
 
 	@Override
 	public <P> BasicMappingBuilder withPostServeAction(String extensionName, P parameters) {
-		Parameters params = parameters instanceof Parameters ? (Parameters) parameters : Parameters.of(parameters);
+		Parameters params = parameters instanceof Parameters p ? p : Parameters.of(parameters);
 		this.postServeActions.put(extensionName, params);
 		return this;
 	}
